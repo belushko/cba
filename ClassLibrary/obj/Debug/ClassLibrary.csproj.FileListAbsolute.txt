@@ -1,0 +1,27 @@
+c:\Users\Евгений\documents\visual studio 2013\Projects\Course2\ClassLibrary\bin\Debug\ClassLibrary.dll
+c:\Users\Евгений\documents\visual studio 2013\Projects\Course2\ClassLibrary\bin\Debug\ClassLibrary.pdb
+c:\Users\Евгений\documents\visual studio 2013\Projects\Course2\ClassLibrary\obj\Debug\ClassLibrary.dll
+c:\Users\Евгений\documents\visual studio 2013\Projects\Course2\ClassLibrary\obj\Debug\ClassLibrary.pdb
+C:\Users\Евгений\Desktop\Курсач\Course2\ClassLibrary\bin\Debug\ClassLibrary.dll
+C:\Users\Евгений\Desktop\Курсач\Course2\ClassLibrary\bin\Debug\ClassLibrary.pdb
+C:\Users\Евгений\Desktop\Курсач\Course2\ClassLibrary\obj\Debug\ClassLibrary.csprojResolveAssemblyReference.cache
+C:\Users\Евгений\Desktop\Курсач\Course2\ClassLibrary\obj\Debug\ClassLibrary.dll
+C:\Users\Евгений\Desktop\Курсач\Course2\ClassLibrary\obj\Debug\ClassLibrary.pdb
+C:\Users\Жека\Desktop\Курсач\Course2\ClassLibrary\bin\Debug\ClassLibrary.dll
+C:\Users\Жека\Desktop\Курсач\Course2\ClassLibrary\bin\Debug\ClassLibrary.pdb
+C:\Users\Жека\Desktop\Курсач\Course2\ClassLibrary\obj\Debug\ClassLibrary.csprojResolveAssemblyReference.cache
+C:\Users\Жека\Desktop\Курсач\Course2\ClassLibrary\obj\Debug\ClassLibrary.dll
+C:\Users\Жека\Desktop\Курсач\Course2\ClassLibrary\obj\Debug\ClassLibrary.pdb
+C:\Users\Евгений\Desktop\Курсач — копия\Course2\ClassLibrary\bin\Debug\ClassLibrary.dll
+C:\Users\Евгений\Desktop\Курсач — копия\Course2\ClassLibrary\bin\Debug\ClassLibrary.pdb
+C:\Users\Евгений\Desktop\Курсач — копия\Course2\ClassLibrary\obj\Debug\ClassLibrary.dll
+C:\Users\Евгений\Desktop\Курсач — копия\Course2\ClassLibrary\obj\Debug\ClassLibrary.pdb
+C:\Users\Жека\Desktop\Course2\ClassLibrary\bin\Debug\ClassLibrary.dll
+C:\Users\Жека\Desktop\Course2\ClassLibrary\bin\Debug\ClassLibrary.pdb
+C:\Users\Жека\Desktop\Course2\ClassLibrary\obj\Debug\ClassLibrary.dll
+C:\Users\Жека\Desktop\Course2\ClassLibrary\obj\Debug\ClassLibrary.pdb
+C:\Users\Евгений\Desktop\Все\Новая папка (3)\Курсач\Course2\ClassLibrary\bin\Debug\ClassLibrary.dll
+C:\Users\Евгений\Desktop\Все\Новая папка (3)\Курсач\Course2\ClassLibrary\bin\Debug\ClassLibrary.pdb
+C:\Users\Евгений\Desktop\Все\Новая папка (3)\Курсач\Course2\ClassLibrary\obj\Debug\ClassLibrary.csprojResolveAssemblyReference.cache
+C:\Users\Евгений\Desktop\Все\Новая папка (3)\Курсач\Course2\ClassLibrary\obj\Debug\ClassLibrary.dll
+C:\Users\Евгений\Desktop\Все\Новая папка (3)\Курсач\Course2\ClassLibrary\obj\Debug\ClassLibrary.pdb
