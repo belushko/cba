@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace cba.Logic
 {
     public class Series
     {
+        public static int SizeOfSeries { set; get; } //number of series (tables)
+        public static int Size { set; get; } //number of animals (rows)
+        public string Name { set; get; }
+        public double MOValue { set; get; }
         public DataArray a;
         public double activity; //biological activity
         public double[] breeding = new double[4]; //breeding sum values
-        public List<double[]> Mas = new List<double[]>(); //table values
         public double ratio; //efficiency ratio
-        public string Name { set; get; }
-        public int SizeOfSeries { set; get; } //number of series (tables)
-        public int Size { set; get; } //number of animals (rows)
-        public double MOValue { set; get; }
 
         public Series()
         {
@@ -23,8 +21,9 @@ namespace cba.Logic
         {
             Size = size;
             a = new DataArray(size);
-            Mas = new List<double[]>();
         }
+
+
 
         public void InitTable()
         {

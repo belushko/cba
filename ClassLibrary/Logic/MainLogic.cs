@@ -43,7 +43,7 @@ namespace cba.Logic
             for (var k = 0; k < 3; k++)
             {
                 //change series[0].Size
-                for (var i = 0; i < series[0].Size; i++)
+                for (var i = 0; i < Series.Size; i++)
                 {
                     for (var j = 0; j < 12; j++)
                     {
@@ -84,9 +84,8 @@ namespace cba.Logic
 
             for (var k = 0; k < 3; k++)
             {
-                series[k].SizeOfSeries = sizeOfSeries;
-                series[k].Size = size;
-                series[k].Mas.Clear();
+                Series.SizeOfSeries = sizeOfSeries;
+                Series.Size = size;
 
                 for (var i = 0; i < size; i++)
                 {
@@ -97,7 +96,6 @@ namespace cba.Logic
                         mas[j] = a[k][i][j];
                     }
 
-                    series[k].Mas.Add(mas);
                 }
             }
 
@@ -108,11 +106,11 @@ namespace cba.Logic
         {
             for (var k = 0; k < 3; k++)
             {
-                for (var i = 0; i < series[0].Size; i++)
+                for (var i = 0; i < Series.Size; i++)
                 {
                     for (var j = 0; j < 12; j++)
                     {
-                        a[k][i][j] = series[k].Mas[i][j];
+                        a[k][i][j] = series[k].a[i][j];
                     }
                 }
             }

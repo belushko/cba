@@ -40,7 +40,7 @@ namespace cba
             {
                 series[i] = new Series(size);
                 series[i].a = new DataArray(size);
-                series[i].Size = size;
+                Series.Size = size;
                 series[i].MOValue = int.Parse(textBoxMO.Text); //!!!
                 series[i].InitTable();
             }
@@ -77,7 +77,7 @@ namespace cba
             {
                 series[i] = new Series(n);
                 series[i].a = new DataArray(n);
-                series[i].Size = n;
+                Series.Size = n;
                 series[i].MOValue = int.Parse(textBoxMO.Text); //!!!
                 series[i].InitTable();
             }
@@ -166,9 +166,9 @@ namespace cba
         {
             series = access.Load("Info.xml");
 
-            InitTable(series[0].Size);
-            comboBoxN.SelectedValue = series[0].Size;
-            comboBoxNumberOfSeries.SelectedValue = series[0].SizeOfSeries;
+            InitTable(Series.Size);
+            comboBoxN.SelectedValue = Series.Size;
+            comboBoxNumberOfSeries.SelectedValue = Series.SizeOfSeries;
 
             logic.Load(series, a);
 
@@ -187,9 +187,9 @@ namespace cba
             {
                 var fileName = openFileDialog.FileName;
                 series = access.Load(fileName);
-                InitTable(series[0].Size);
-                comboBoxN.SelectedValue = series[0].Size;
-                comboBoxNumberOfSeries.SelectedValue = series[0].SizeOfSeries;
+                InitTable(Series.Size);
+                comboBoxN.SelectedValue = Series.Size;
+                comboBoxNumberOfSeries.SelectedValue = Series.SizeOfSeries;
 
                 logic.Load(series, a);
 
@@ -321,7 +321,7 @@ namespace cba
             {
                 series[i] = new Series(n);
                 series[i].a = new DataArray(n);
-                series[i].Size = n;
+                Series.Size = n;
                 series[i].MOValue = int.Parse(textBoxMO.Text); //!!!
                 series[i].InitTable();
             }
