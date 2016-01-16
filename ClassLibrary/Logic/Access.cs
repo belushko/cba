@@ -1,22 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
+﻿using System.IO;
 using System.Xml.Serialization;
-using System.IO; 
 
-namespace cba
+namespace cba.Logic
 {
     public class Access
     {
-        public Access()
-        { }
-
         public void Save(string fileName, params Series[] series)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(Series[]));
+            var serializer = new XmlSerializer(typeof (Series[]));
 
             using (TextWriter textWriter = new StreamWriter(fileName))
             {
@@ -27,11 +18,11 @@ namespace cba
         public Series[] Load(string fileName)
         {
             Series[] series;
-            XmlSerializer deserializer = new XmlSerializer(typeof(Series[]));
+            var deserializer = new XmlSerializer(typeof (Series[]));
 
             using (TextReader textReader = new StreamReader(fileName))
             {
-                series = (Series[])deserializer.Deserialize(textReader);
+                series = (Series[]) deserializer.Deserialize(textReader);
             }
 
             return series;

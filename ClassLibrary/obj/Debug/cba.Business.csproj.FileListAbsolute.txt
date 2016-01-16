@@ -4,3 +4,9 @@ C:\Users\Евгений\Desktop\Все\Новая папка (3)\Курсач\Co
 C:\Users\Евгений\Desktop\Все\Новая папка (3)\Курсач\Course2\ClassLibrary\obj\Debug\ClassLibrary.pdb
 C:\Users\Евгений\Desktop\Все\Новая папка (3)\Курсач\Course2\ClassLibrary\obj\Debug\cba.Business.csprojResolveAssemblyReference.cache
 C:\Users\Евгений\Desktop\Все\Новая папка (3)\Курсач\Course2\ClassLibrary\bin\Debug\itextsharp.dll
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\cba\ClassLibrary\bin\Debug\ClassLibrary.dll
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\cba\ClassLibrary\bin\Debug\ClassLibrary.pdb
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\cba\ClassLibrary\bin\Debug\itextsharp.dll
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\cba\ClassLibrary\obj\Debug\cba.Business.csprojResolveAssemblyReference.cache
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\cba\ClassLibrary\obj\Debug\ClassLibrary.dll
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\cba\ClassLibrary\obj\Debug\ClassLibrary.pdb

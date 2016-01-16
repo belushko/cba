@@ -43,11 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Access.cs" />
-    <Compile Include="DataArray.cs" />
+    <Compile Include="Logic\Access.cs" />
+    <Compile Include="Logic\DataArray.cs" />
     <Compile Include="Logic\MainLogic.cs" />
-    <Compile Include="Solver.cs" />
-    <Compile Include="Series.cs" />
+    <Compile Include="Logic\Solver.cs" />
+    <Compile Include="Logic\Series.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

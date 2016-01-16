@@ -1,24 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace cba
+namespace cba.Logic
 {
     public class Solver
     {
-        public int bestMedNum;//номер лучшего припарата
-
         public delegate bool Range(Series a);
+
+        public int bestMedNum; //номер лучшего припарата
 
         public void Analise(int size, params Series[] table)
         {
-            Range isInRange = new Range(IsInRange);
+            Range isInRange = IsInRange;
             bestMedNum = -1;
-            bool isGood = true;
-            
-            for (int i = 0; i < size; i++)
+            var isGood = true;
+
+            for (var i = 0; i < size; i++)
             {
                 if (!IsChecked(table[i], isInRange))
                 {
@@ -26,7 +24,7 @@ namespace cba
                 }
             }
 
-            for (int i = size; i < 3; i++)
+            for (var i = size; i < 3; i++)
             {
                 table[i].ratio = 0;
             }
@@ -39,7 +37,7 @@ namespace cba
 
         public double FindRatio(Series a)
         {
-            return (a.breeding[0] + a.breeding[1]) / 2;
+            return (a.breeding[0] + a.breeding[1])/2;
         }
 
         public bool IsInRange(Series a)
@@ -48,10 +46,7 @@ namespace cba
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         public bool IsChecked(Series a, Range range)
@@ -61,20 +56,17 @@ namespace cba
                 a.ratio = FindRatio(a);
                 return true;
             }
-            else
-            {
-                a.ratio = -1;
-                return false;
-            }
+            a.ratio = -1;
+            return false;
         }
 
         public double FindMaxBreed(Series[] series)
         {
-            double maxBreed = series[0].breeding[0];
+            var maxBreed = series[0].breeding[0];
 
-            for (int i = 0; i < 3; i++)
+            for (var i = 0; i < 3; i++)
             {
-                for (int j = 0; j < 2; j++)
+                for (var j = 0; j < 2; j++)
                 {
                     if (series[i].breeding[j] > maxBreed)
                     {
@@ -88,11 +80,11 @@ namespace cba
 
         public double FindMinBreed(Series[] series)
         {
-            double minBreed =series[0].breeding[0];
+            var minBreed = series[0].breeding[0];
 
-            for (int i = 0; i < 3; i++)
+            for (var i = 0; i < 3; i++)
             {
-                for (int j = 0; j < 2; j++)
+                for (var j = 0; j < 2; j++)
                 {
                     if (series[i].breeding[j] < minBreed)
                     {
@@ -103,14 +95,14 @@ namespace cba
 
             return minBreed;
         }
-        
+
         public int FindBestMed(params Series[] table)
         {
             double valueOfBest = 0;
             int numberOfBest;
-            List<double> l = new List<double>();
+            var l = new List<double>();
 
-            foreach (Series a in table)
+            foreach (var a in table)
             {
                 l.Add(a.ratio);
             }
@@ -119,7 +111,7 @@ namespace cba
             numberOfBest = l.IndexOf(valueOfBest) + 1;
             Console.WriteLine();
 
-            foreach (Series a in table)
+            foreach (var a in table)
             {
                 if (a.ratio == valueOfBest)
                 {
