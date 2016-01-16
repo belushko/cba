@@ -10,6 +10,10 @@ namespace cba.Logic
         public double[] breeding = new double[4]; //breeding sum values
         public List<double[]> Mas = new List<double[]>(); //table values
         public double ratio; //efficiency ratio
+        public string Name { set; get; }
+        public int SizeOfSeries { set; get; } //number of series (tables)
+        public int Size { set; get; } //number of animals (rows)
+        public double MOValue { set; get; }
 
         public Series()
         {
@@ -21,12 +25,6 @@ namespace cba.Logic
             a = new DataArray(size);
             Mas = new List<double[]>();
         }
-
-        public string Name { set; get; }
-        public int SizeOfSeries { set; get; } //number of series (tables)
-        public int Size { set; get; } //number of animals (rows)
-        public double MOValue { set; get; }
-
 
         public void InitTable()
         {
@@ -51,7 +49,7 @@ namespace cba.Logic
             breeding[2] = 0;
             breeding[3] = 0;
 
-            for (var i = 0; i < a.M; i++)
+            for (var i = 0; i < Size; i++)
             {
                 breeding[0] += a[i][2];
                 breeding[1] += a[i][5];
@@ -62,7 +60,7 @@ namespace cba.Logic
 
         public void FindMidValues()
         {
-            for (var i = 0; i < a.M; i++)
+            for (var i = 0; i < Size; i++)
             {
                 for (var j = 0; j < 12; j++)
                 {

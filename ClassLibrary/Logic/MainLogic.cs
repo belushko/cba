@@ -35,7 +35,6 @@ namespace cba.Logic
 
             for (var i = 0; i < 3; i++)
             {
-                series[i].a = a[i];
                 series[i].MOValue = moValue;
             }
 
