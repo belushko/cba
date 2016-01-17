@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace cba.Logic
@@ -109,15 +108,6 @@ namespace cba.Logic
 
             valueOfBest = l.Max();
             numberOfBest = l.IndexOf(valueOfBest) + 1;
-            Console.WriteLine();
-
-            foreach (var a in table)
-            {
-                if (a.ratio == valueOfBest)
-                {
-                    Console.WriteLine(a.Name + " " + numberOfBest + " лучший");
-                }
-            }
 
             return numberOfBest - 1;
         }

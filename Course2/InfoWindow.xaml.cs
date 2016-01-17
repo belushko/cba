@@ -58,9 +58,9 @@ namespace cba
             labelCD1.Content = "d1 = " + Cd1 + "";
             labelCD2.Content = "d2 = " + Cd2 + "";
 
-            labelAA.Content = "A = " + Ad1 + " / " + Ad2 + " * " + series[0].MOValue + " = " + Math.Round(series[0].activity);
-            labelBA.Content = "A = " + Bd1 + " / " + Bd2 + " * " + series[1].MOValue + " = " + Math.Round(series[1].activity);
-            labelCA.Content = "A = " + Cd1 + " / " + Cd2 + " * " + series[2].MOValue + " = " + Math.Round(series[2].activity);
+            labelAA.Content = "A = " + Ad1 + " / " + Ad2 + " * " + Series.MOValue + " = " + Math.Round(series[0].activity);
+            labelBA.Content = "A = " + Bd1 + " / " + Bd2 + " * " + Series.MOValue + " = " + Math.Round(series[1].activity);
+            labelCA.Content = "A = " + Cd1 + " / " + Cd2 + " * " + Series.MOValue + " = " + Math.Round(series[2].activity);
 
             labelARatio.Content = "Эффект. = " + series[0].ratio;
             labelBRatio.Content = "Эффект. = " + series[1].ratio;

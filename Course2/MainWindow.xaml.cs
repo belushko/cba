@@ -41,7 +41,7 @@ namespace cba
                 series[i] = new Series(size);
                 series[i].a = new DataArray(size);
                 Series.Size = size;
-                series[i].MOValue = int.Parse(textBoxMO.Text); //!!!
+                Series.MOValue = int.Parse(textBoxMO.Text); //!!!
                 series[i].InitTable();
             }
 
@@ -78,7 +78,7 @@ namespace cba
                 series[i] = new Series(n);
                 series[i].a = new DataArray(n);
                 Series.Size = n;
-                series[i].MOValue = int.Parse(textBoxMO.Text); //!!!
+                Series.MOValue = int.Parse(textBoxMO.Text); //!!!
                 series[i].InitTable();
             }
 
@@ -322,7 +322,7 @@ namespace cba
                 series[i] = new Series(n);
                 series[i].a = new DataArray(n);
                 Series.Size = n;
-                series[i].MOValue = int.Parse(textBoxMO.Text); //!!!
+                Series.MOValue = int.Parse(textBoxMO.Text); //!!!
                 series[i].InitTable();
             }
 

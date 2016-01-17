@@ -4,10 +4,6 @@ namespace cba.Logic
 {
     public class Series
     {
-        public static int SizeOfSeries { set; get; } //number of series (tables)
-        public static int Size { set; get; } //number of animals (rows)
-        public string Name { set; get; }
-        public double MOValue { set; get; }
         public DataArray a;
         public double activity; //biological activity
         public double[] breeding = new double[4]; //breeding sum values
@@ -23,6 +19,12 @@ namespace cba.Logic
             a = new DataArray(size);
         }
 
+        public static int SizeOfSeries { set; get; } //number of series (tables)
+        public static int Size { set; get; } //number of animals (rows)
+        public static double MOValue { set; get; }
+
+
+        public string Name { set; get; }
 
 
         public void InitTable()

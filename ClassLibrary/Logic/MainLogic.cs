@@ -35,7 +35,7 @@ namespace cba.Logic
 
             for (var i = 0; i < 3; i++)
             {
-                series[i].MOValue = moValue;
+                Series.MOValue = moValue;
             }
 
             var isTableValid = true;
@@ -66,7 +66,7 @@ namespace cba.Logic
 
                 for (var i = 0; i < 3; i++)
                 {
-                    a[i] = series[i].a;
+                    //a[i] = series[i].a;
                 }
 
                 //TODO: refartor
