@@ -67,7 +67,7 @@ namespace cba.Logic
                 {
                     if ((j + 1)%3 == 0)
                     {
-                        a[i][j] = (a[i][j - 2] + a[i][j - 1])/2;
+                        this.a[i][j] = (a[i][j - 2] + a[i][j - 1])/2;
                     }
                 }
             }
