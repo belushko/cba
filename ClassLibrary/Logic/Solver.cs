@@ -1,65 +1,93 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 
 namespace cba.Logic
 {
     public class Solver
     {
-        public delegate bool Range(Series a);
-
         public int bestMedNum; //номер лучшего припарата
 
-        public void Analise(int size, params Series[] table)
+        public int Culculate(Series[] series)
         {
-            Range isInRange = IsInRange;
-            bestMedNum = -1;
-            var isGood = true;
+            var isTableValid = true;
 
-            for (var i = 0; i < size; i++)
+            for (var k = 0; k < series[0].SizeOfSeries; k++)
             {
-                if (!IsChecked(table[i], isInRange))
+                for (var i = 0; i < series[0].Size; i++)
                 {
-                    isGood = false;
+                    for (var j = 0; j < 12; j++)
+                    {
+                        if (series[k].a[i][j] < 0)
+                        {
+                            isTableValid = false;
+                        }
+                    }
                 }
             }
 
-            for (var i = size; i < 3; i++)
+            if (isTableValid)
             {
-                table[i].ratio = 0;
+                for (var i = 0; i < series[0].SizeOfSeries; i++)
+                {
+                    series[i].FindMidValues();
+                    series[i].FindBreedingSum();
+                    series[i].FindActivityValue();
+                }
+
+                var isSeriesValid = true;
+
+                for (var i = 0; i < series[0].SizeOfSeries; i++)
+                {
+                    if (!IsChecked(series[i]))
+                    {
+                        isSeriesValid = false;
+                    }
+                }
+
+                //for (var i = Series.Size; i < 3; i++)
+                //{
+                //    series[i].ratio = 0;
+                //}
+
+                if (isSeriesValid)
+                {
+                    bestMedNum = FindBestMed(series);
+                }
+
+                return bestMedNum;
             }
 
-            if (isGood)
-            {
-                bestMedNum = FindBestMed(table);
-            }
+            throw new Exception("Не все препараты прошли проверку!");
         }
 
-        public double FindRatio(Series a)
+        private double FindRatio(Series a)
         {
             return (a.breeding[0] + a.breeding[1])/2;
         }
 
-        public bool IsInRange(Series a)
+        private bool IsInRange(Series a)
         {
             if ((a.activity > 40000) && (a.activity < 60000))
             {
                 return true;
             }
+
             return false;
         }
 
-        public bool IsChecked(Series a, Range range)
+        private bool IsChecked(Series a)
         {
-            if (range(a))
+            if (IsInRange(a))
             {
                 a.ratio = FindRatio(a);
                 return true;
             }
+
             a.ratio = -1;
             return false;
         }
 
-        public double FindMaxBreed(Series[] series)
+        private double FindMaxBreed(Series[] series)
         {
             var maxBreed = series[0].breeding[0];
 
@@ -77,7 +105,7 @@ namespace cba.Logic
             return maxBreed;
         }
 
-        public double FindMinBreed(Series[] series)
+        private double FindMinBreed(Series[] series)
         {
             var minBreed = series[0].breeding[0];
 
@@ -95,21 +123,17 @@ namespace cba.Logic
             return minBreed;
         }
 
-        public int FindBestMed(params Series[] table)
+        private int FindBestMed(params Series[] series)
         {
             double valueOfBest = 0;
-            int numberOfBest;
-            var l = new List<double>();
 
-            foreach (var a in table)
-            {
-                l.Add(a.ratio);
-            }
+            var l = series.Select(a => a.ratio).ToList();
 
             valueOfBest = l.Max();
-            numberOfBest = l.IndexOf(valueOfBest) + 1;
 
-            return numberOfBest - 1;
+            var numberOfBest = l.IndexOf(valueOfBest) + 1;
+
+            return numberOfBest;
         }
     }
 }

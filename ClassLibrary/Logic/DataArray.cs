@@ -4,16 +4,12 @@ namespace cba.Logic
 {
     public class DataArray
     {
-        //public int N { get; }  //кол-во столбцов
-
         public DataArray()
         {
         }
 
         public DataArray(int m)
         {
-            M = m;
-
             var number = 0;
             //добавление колонок с названием (номер):
             for (var j = 0; j < 12; j++)
@@ -34,17 +30,7 @@ namespace cba.Logic
             {
                 Data.Rows.Add();
             }
-
-            for (var i = 0; i < m; i++)
-            {
-                if ((i + 1)%3 == 0)
-                {
-                    //data.Columns[i].ReadOnly = true;                     
-                }
-            }
         }
-
-        public int M { get; } //кол-во строк
 
         public DataTable Data { get; } = new DataTable();
 

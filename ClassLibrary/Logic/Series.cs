@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace cba.Logic
+﻿namespace cba.Logic
 {
     public class Series
     {
@@ -15,33 +13,14 @@ namespace cba.Logic
 
         public Series(int size)
         {
-            Size = size;
             a = new DataArray(size);
         }
 
-        public static int SizeOfSeries { set; get; } //number of series (tables)
-        public static int Size { set; get; } //number of animals (rows)
-        public static double MOValue { set; get; }
-
+        public int SizeOfSeries { set; get; } //number of series (tables)
+        public int Size { set; get; } //number of animals (rows)
+        public double MOValue { set; get; }
 
         public string Name { set; get; }
-
-
-        public void InitTable()
-        {
-            var random = new Random(unchecked((int) DateTime.Now.Ticks));
-
-            for (var i = 0; i < 2; i++)
-            {
-                for (var j = 0; j < 12; j++)
-                {
-                    if ((j + 1)%3 != 0)
-                    {
-                        a[i][j] = int.Parse(random.Next(100, 120) + "");
-                    }
-                }
-            }
-        }
 
         public void FindBreedingSum()
         {
@@ -67,7 +46,7 @@ namespace cba.Logic
                 {
                     if ((j + 1)%3 == 0)
                     {
-                        this.a[i][j] = (a[i][j - 2] + a[i][j - 1])/2;
+                        a[i][j] = (a[i][j - 2] + a[i][j - 1])/2;
                     }
                 }
             }

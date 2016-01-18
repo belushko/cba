@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,13 +12,13 @@ namespace cba
     public partial class MainWindow : Window
     {
         private readonly DataArray[] a = new DataArray[3];
+        private readonly Access access = new Access();
         private readonly bool first = true;
-        private InfoWindow info = new InfoWindow();
 
         private readonly MainLogic logic = new MainLogic();
+        private readonly Solver solver = new Solver();
+        private InfoWindow info = new InfoWindow();
         private Series[] series = new Series[3];
-        private Solver solver = new Solver();
-        private readonly Access access = new Access();
 
         public MainWindow()
         {
@@ -35,14 +34,15 @@ namespace cba
             comboBoxNumberOfSeries.SelectedItem = 3;
 
             var size = int.Parse(comboBoxN.SelectedValue + "");
+            var numberOfSeries = int.Parse(comboBoxNumberOfSeries.SelectedValue.ToString());
 
             for (var i = 0; i < 3; i++)
             {
                 series[i] = new Series(size);
                 series[i].a = new DataArray(size);
-                Series.Size = size;
-                Series.MOValue = int.Parse(textBoxMO.Text); //!!!
-                series[i].InitTable();
+                series[i].Size = size;
+                series[i].SizeOfSeries = numberOfSeries;
+                series[i].MOValue = int.Parse(textBoxMO.Text); //!!!
             }
 
             series[0].Name = "A";
@@ -54,50 +54,33 @@ namespace cba
 
         private void InitTable(int n)
         {
-            //a[0] = new DataArray(n);
-            //a[1] = new DataArray(n);
-            //a[2] = new DataArray(n);
-
-            //dataGridA.ItemsSource = a[0].Data.DefaultView;
-            //dataGridB.ItemsSource = a[1].Data.DefaultView;
-            //dataGridC.ItemsSource = a[2].Data.DefaultView;
-
-            //for (var k = 0; k < 3; k++)
-            //{
-            //    for (var i = 0; i < n; i++)
-            //        for (var j = 0; j < 12; j++)
-            //            a[k][i][j] = 0;
-            //}
-
-            //dataGridA.CanUserAddRows = false;
-            //dataGridB.CanUserAddRows = false;
-            //dataGridC.CanUserAddRows = false;
-
             for (var i = 0; i < 3; i++)
             {
                 series[i] = new Series(n);
+                //TODO: remove
                 series[i].a = new DataArray(n);
-                Series.Size = n;
-                Series.MOValue = int.Parse(textBoxMO.Text); //!!!
-                series[i].InitTable();
+                series[0].Size = n;
+                //Series.SizeOfSeries = int.Parse(comboBoxNumberOfSeries.SelectedValue.ToString());
+                series[0].MOValue = int.Parse(textBoxMO.Text); //!!!
             }
 
-            series[0].a = new DataArray(n);
-            series[1].a = new DataArray(n);
-            series[2].a = new DataArray(n);
+            series[0].Name = textBoxSeriesName1.Text;
+            series[1].Name = textBoxSeriesName2.Text;
+            series[2].Name = textBoxSeriesName3.Text;
 
             dataGridA.ItemsSource = series[0].a.Data.DefaultView;
-            dataGridB.ItemsSource = series[0].a.Data.DefaultView;
-            dataGridC.ItemsSource = series[0].a.Data.DefaultView;
-            
+            dataGridB.ItemsSource = series[1].a.Data.DefaultView;
+            dataGridC.ItemsSource = series[2].a.Data.DefaultView;
+
             for (var k = 0; k < 3; k++)
             {
                 for (var i = 0; i < n; i++)
+                {
                     for (var j = 0; j < 12; j++)
                     {
-                        series[0].a[i][j] = 0;
-                        //a[k][i][j] = 0;
+                        series[k].a[i][j] = 0;
                     }
+                }
             }
 
             dataGridA.CanUserAddRows = false;
@@ -117,36 +100,56 @@ namespace cba
         {
             //try
             //{
-                var size = int.Parse(comboBoxNumberOfSeries.SelectedItem + "");
-                var moValue = int.Parse(textBoxMO.Text);
 
-                var best = logic.Culculate(series, a, moValue, first, size);
+            var size = int.Parse(comboBoxN.SelectedValue + "");
+            var moValue = int.Parse(textBoxMO.Text);
 
-                var bestMedNumber = "";
+            var numberOfSeries = 0;
+            if (comboBoxNumberOfSeries.SelectedValue != null)
+            {
+                numberOfSeries = int.Parse(comboBoxNumberOfSeries.SelectedValue.ToString());
+            }
+            else
+            {
+                numberOfSeries = series[0].SizeOfSeries;
+            }
 
-                switch (best)
-                {
-                    case 1:
-                        bestMedNumber = tabControlItemA.Header + "";
-                        break;
-                    case 2:
-                        bestMedNumber = tabControlItemB.Header + "";
-                        break;
-                    case 3:
-                        bestMedNumber = tabControlItemC.Header + "";
-                        break;
-                    default:
-                        bestMedNumber = "";
-                        break;
-                }
+            for (var i = 0; i < numberOfSeries; i++)
+            {
+                series[i].Size = size;
+                series[i].SizeOfSeries = numberOfSeries;
+                series[i].MOValue = moValue;
+            }
 
-                labelAnswer.Content = bestMedNumber + " - наиболее эффективный препарат!";
 
-                //TODO: refactor
-                info.ShowInfo(series);
+            var best = solver.Culculate(series);
 
-                Draw();
-                buttonMakeReport.IsEnabled = true;
+            var bestMedNumber = "";
+
+            switch (best)
+            {
+                case 1:
+                    bestMedNumber = tabControlItemA.Header + "";
+                    break;
+                case 2:
+                    bestMedNumber = tabControlItemB.Header + "";
+                    break;
+                case 3:
+                    bestMedNumber = tabControlItemC.Header + "";
+                    break;
+                default:
+                    bestMedNumber = "";
+                    break;
+            }
+
+            labelAnswer.Content = series[best - 1].Name + " - наиболее эффективный препарат!";
+
+            //TODO: refactor
+            info.ShowInfo(series);
+
+            Draw();
+            buttonMakeReport.IsEnabled = true;
+            buttonSaveGraph.IsEnabled = true;
             //}
             //catch (Exception ex)
             //{
@@ -159,22 +162,17 @@ namespace cba
             var size = int.Parse(comboBoxN.Text);
             var sizeOfSeries = int.Parse(comboBoxNumberOfSeries.Text);
 
-            logic.Save(series, a, size, sizeOfSeries);
+            access.Save("DefaultSave.xml", series);
         }
 
         private void buttonLoad_Click(object sender, RoutedEventArgs e)
         {
-            series = access.Load("Info.xml");
+            series = access.Load("DefaultSave.xml");
 
-            InitTable(Series.Size);
-            comboBoxN.SelectedValue = Series.Size;
-            comboBoxNumberOfSeries.SelectedValue = Series.SizeOfSeries;
 
-            logic.Load(series, a);
+            InitData();
 
             Draw();
-
-            //TODO:refactor
             buttonCulc_Click(sender, e);
         }
 
@@ -187,14 +185,24 @@ namespace cba
             {
                 var fileName = openFileDialog.FileName;
                 series = access.Load(fileName);
-                InitTable(Series.Size);
-                comboBoxN.SelectedValue = Series.Size;
-                comboBoxNumberOfSeries.SelectedValue = Series.SizeOfSeries;
 
-                logic.Load(series, a);
-
+                InitData();
                 Draw();
             }
+        }
+
+        public void InitData()
+        {
+            comboBoxN.SelectedValue = series[0].Size;
+            comboBoxNumberOfSeries.SelectedValue = series[0].SizeOfSeries;
+
+            textBoxSeriesName1.Text = series[0].Name;
+            textBoxSeriesName2.Text = series[1].Name;
+            textBoxSeriesName3.Text = series[2].Name;
+
+            dataGridA.ItemsSource = series[0].a.Data.DefaultView;
+            dataGridB.ItemsSource = series[1].a.Data.DefaultView;
+            dataGridC.ItemsSource = series[2].a.Data.DefaultView;
         }
 
         private void buttonSaveGraph_Click(object sender, RoutedEventArgs e)
@@ -210,6 +218,10 @@ namespace cba
             tabControlItemA.Header = textBoxSeriesName1.Text;
             tabControlItemB.Header = textBoxSeriesName2.Text;
             tabControlItemC.Header = textBoxSeriesName3.Text;
+
+            series[0].Name = textBoxSeriesName1.Text;
+            series[1].Name = textBoxSeriesName2.Text;
+            series[2].Name = textBoxSeriesName3.Text;
 
             labelInstr1.Content = "- " + textBoxSeriesName1.Text;
             labelInstr2.Content = "- " + textBoxSeriesName2.Text;
@@ -237,7 +249,7 @@ namespace cba
                     var nameB = tabControlItemB.Header.ToString();
                     var nameC = tabControlItemC.Header.ToString();
 
-                    logic.MakeReport(fileName, nameA, nameB, nameC, series, a, numberOfSeries);
+                    //logic.MakeReport(fileName, nameA, nameB, nameC, series, a, numberOfSeries);
                 }
                 catch
                 {
@@ -251,16 +263,11 @@ namespace cba
             var saveFileDialog = new SaveFileDialog();
             saveFileDialog.DefaultExt = ".xml";
             saveFileDialog.Filter = "XML documents |*.xml";
-            var sizeOfSeries = int.Parse(comboBoxNumberOfSeries.Text);
-            var size = int.Parse(comboBoxN.Text);
-
-            logic.Save(series, a, size, sizeOfSeries);
 
             if (saveFileDialog.ShowDialog() == true)
             {
                 var fileName = saveFileDialog.FileName;
 
-                //TODO:refactor
                 access.Save(fileName, series);
             }
         }
@@ -268,6 +275,7 @@ namespace cba
         private void comboBoxN_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var size = int.Parse(comboBoxN.SelectedItem + "");
+
             InitTable(size);
         }
 
@@ -315,15 +323,17 @@ namespace cba
         private void menuItemFileNew_Click(object sender, RoutedEventArgs e)
         {
             buttonMakeReport.IsEnabled = false;
+            buttonSaveGraph.IsEnabled = false;
+
             var n = int.Parse(comboBoxN.SelectedValue + "");
 
-            for (var i = 0; i < 3; i++)
+            for (var i = 0; i < series[0].SizeOfSeries; i++)
             {
                 series[i] = new Series(n);
                 series[i].a = new DataArray(n);
-                Series.Size = n;
-                Series.MOValue = int.Parse(textBoxMO.Text); //!!!
-                series[i].InitTable();
+                series[i].Size = n;
+                series[i].SizeOfSeries = int.Parse(comboBoxNumberOfSeries.SelectedValue.ToString());
+                series[i].MOValue = int.Parse(textBoxMO.Text); //!!!
             }
 
             InitTable(n);
@@ -360,7 +370,17 @@ namespace cba
 
         public void Draw()
         {
-            var size = int.Parse(comboBoxNumberOfSeries.SelectedItem + "");
+            var size = 0;
+            if (comboBoxNumberOfSeries.SelectedItem != null)
+            {
+                size = int.Parse(comboBoxNumberOfSeries.SelectedItem + "");
+            }
+
+            if (size == 0)
+            {
+                size = series[0].SizeOfSeries;
+            }
+
             var list = new List<double>();
 
             for (var i = 0; i < size; i++)
