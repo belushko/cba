@@ -26,3 +26,4 @@ Build/*.nupkg
 ClassLibrary/obj/
 cba.BusinessLogic/obj/
 cba.Presentation/bin/
+cba.Presentation/obj/
