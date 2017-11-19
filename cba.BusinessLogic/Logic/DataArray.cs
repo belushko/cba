@@ -4,18 +4,29 @@ namespace CBA.BusinessLogic.Logic
 {
     public class DataArray
     {
+        public DataTable Data { get; } = new DataTable();
+
+        public DataArrayRow this[int index]
+        {
+            get { return new DataArrayRow(Data, index); }
+        }
+
         public DataArray()
         {
         }
 
-        public DataArray(int m)
+        public DataArray(int rowsCount)
         {
+            var columnsCount = 12;
+
             var number = 0;
+
             //добавление колонок с названием (номер):
-            for (var j = 0; j < 12; j++)
+            for (var j = 0; j < columnsCount; j++)
             {
                 number++;
-                if ((j + 1)%3 == 0)
+
+                if ((j + 1) % 3 == 0)
                 {
                     Data.Columns.Add(new DataColumn {ColumnName = (j + 1).ToString()});
                     number = 0;
@@ -26,35 +37,10 @@ namespace CBA.BusinessLogic.Logic
                 }
             }
 
-            for (var i = 0; i < m; i++)
+            for (var i = 0; i < rowsCount; i++)
             {
                 Data.Rows.Add();
             }
-        }
-
-        public DataTable Data { get; } = new DataTable();
-
-        public DataArrayRow this[int index]
-        {
-            get { return new DataArrayRow(Data, index); }
-        }
-
-        public class DataArrayRow
-        {
-            private readonly DataTable data;
-            public int row;
-
-            public DataArrayRow(DataTable data, int row)
-            {
-                this.row = row;
-                this.data = data;
-            }
-
-            public double this[int index]
-            {
-                get { return double.Parse(data.Rows[row][index] + ""); }
-                set { data.Rows[row].SetField(index, value); }
-            }
-        }
+        }      
     }
 }

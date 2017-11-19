@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using CBA.BusinessLogic.Models;
 
 namespace CBA.BusinessLogic.Logic
 {
@@ -29,9 +30,11 @@ namespace CBA.BusinessLogic.Logic
             {
                 for (var i = 0; i < series[0].SizeOfSeries; i++)
                 {
-                    series[i].FindMidValues();
-                    series[i].FindBreedingSum();
-                    series[i].FindActivityValue();
+                    var seriesManager = new SeriesManager();
+
+                    seriesManager.FindMidValues(series[i]);
+                    seriesManager.FindBreedingSum(series[i]);
+                    seriesManager.FindActivityValue(series[i]);
                 }
 
                 var isSeriesValid = true;
@@ -43,11 +46,6 @@ namespace CBA.BusinessLogic.Logic
                         isSeriesValid = false;
                     }
                 }
-
-                //for (var i = Series.Size; i < 3; i++)
-                //{
-                //    series[i].ratio = 0;
-                //}
 
                 if (isSeriesValid)
                 {
@@ -84,53 +82,15 @@ namespace CBA.BusinessLogic.Logic
             }
 
             a.ratio = -1;
+
             return false;
-        }
-
-        private double FindMaxBreed(Series[] series)
-        {
-            var maxBreed = series[0].breeding[0];
-
-            for (var i = 0; i < 3; i++)
-            {
-                for (var j = 0; j < 2; j++)
-                {
-                    if (series[i].breeding[j] > maxBreed)
-                    {
-                        maxBreed = series[i].breeding[j];
-                    }
-                }
-            }
-
-            return maxBreed;
-        }
-
-        private double FindMinBreed(Series[] series)
-        {
-            var minBreed = series[0].breeding[0];
-
-            for (var i = 0; i < 3; i++)
-            {
-                for (var j = 0; j < 2; j++)
-                {
-                    if (series[i].breeding[j] < minBreed)
-                    {
-                        minBreed = series[i].breeding[j];
-                    }
-                }
-            }
-
-            return minBreed;
         }
 
         private int FindBestMed(params Series[] series)
         {
             double valueOfBest = 0;
-
             var l = series.Select(a => a.ratio).ToList();
-
             valueOfBest = l.Max();
-
             var numberOfBest = l.IndexOf(valueOfBest) + 1;
 
             return numberOfBest;

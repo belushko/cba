@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
+using CBA.BusinessLogic.Models;
 
 namespace CBA.BusinessLogic.Logic
 {
@@ -24,6 +25,7 @@ namespace CBA.BusinessLogic.Logic
         public Series[] Load(string fileName)
         {
             SeriesModel[] seriesModel;
+
             var deserializer = new XmlSerializer(typeof (SeriesModel[]));
 
             using (TextReader textReader = new StreamReader(fileName))
@@ -100,20 +102,6 @@ namespace CBA.BusinessLogic.Logic
             }
 
             return series;
-        }
-
-        public class SeriesModel
-        {
-            public double activity; //biological activity
-            public double[] breeding = new double[4]; //breeding sum values
-            public List<double[]> items; //table values
-            public double ratio; //efficiency ratio
-
-            public int SizeOfSeries { set; get; } //number of series (tables)
-            public int Size { set; get; } //number of animals (rows)
-            public double MOValue { set; get; }
-
-            public string Name { set; get; }
-        }
+        }     
     }
 }

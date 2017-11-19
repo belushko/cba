@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using CBA.BusinessLogic.Logic;
+using CBA.BusinessLogic.Models;
 
 namespace CBA.Presentation
 {
