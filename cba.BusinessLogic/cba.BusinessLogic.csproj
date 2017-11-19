@@ -36,6 +36,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,6 +48,7 @@
     <Compile Include="Logic\DataArray.cs" />
     <Compile Include="Logic\DataArrayRow.cs" />
     <Compile Include="Logic\MainLogic.cs" />
+    <Compile Include="Logic\ReportManager.cs" />
     <Compile Include="Logic\SeriesManager.cs" />
     <Compile Include="Models\SeriesModel.cs" />
     <Compile Include="Logic\Solver.cs" />

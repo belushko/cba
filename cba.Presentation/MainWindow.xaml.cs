@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,6 +15,8 @@ namespace CBA.Presentation
     {
         private readonly DataArray[] a = new DataArray[3];
         private readonly Access access = new Access();
+        private readonly ReportManager _reportManager = new ReportManager();
+
         private readonly bool first = true;
 
         private readonly MainLogic logic = new MainLogic();
@@ -40,7 +43,7 @@ namespace CBA.Presentation
             for (var i = 0; i < 3; i++)
             {
                 series[i] = new Series(size);
-                series[i].a = new DataArray(size);
+                series[i].DataArray = new DataArray(size);
                 series[i].Size = size;
                 series[i].SizeOfSeries = numberOfSeries;
                 series[i].MOValue = int.Parse(textBoxMO.Text); //!!!
@@ -59,7 +62,7 @@ namespace CBA.Presentation
             {
                 series[i] = new Series(n);
                 //TODO: remove
-                series[i].a = new DataArray(n);
+                series[i].DataArray = new DataArray(n);
                 series[0].Size = n;
                 //Series.SizeOfSeries = int.Parse(comboBoxNumberOfSeries.SelectedValue.ToString());
                 series[0].MOValue = int.Parse(textBoxMO.Text); //!!!
@@ -69,9 +72,9 @@ namespace CBA.Presentation
             series[1].Name = textBoxSeriesName2.Text;
             series[2].Name = textBoxSeriesName3.Text;
 
-            dataGridA.ItemsSource = series[0].a.Data.DefaultView;
-            dataGridB.ItemsSource = series[1].a.Data.DefaultView;
-            dataGridC.ItemsSource = series[2].a.Data.DefaultView;
+            dataGridA.ItemsSource = series[0].DataArray.Data.DefaultView;
+            dataGridB.ItemsSource = series[1].DataArray.Data.DefaultView;
+            dataGridC.ItemsSource = series[2].DataArray.Data.DefaultView;
 
             for (var k = 0; k < 3; k++)
             {
@@ -79,7 +82,7 @@ namespace CBA.Presentation
                 {
                     for (var j = 0; j < 12; j++)
                     {
-                        series[k].a[i][j] = 0;
+                        series[k].DataArray[i][j] = 0;
                     }
                 }
             }
@@ -91,105 +94,103 @@ namespace CBA.Presentation
 
         private void buttonFill_Click(object sender, RoutedEventArgs e)
         {
-            var size = int.Parse(comboBoxNumberOfSeries.SelectedItem + "");
-            var sizeOfRows = int.Parse(comboBoxN.SelectedItem + "");
+            var size = int.Parse(comboBoxNumberOfSeries.SelectedItem + string.Empty);
+            var sizeOfRows = int.Parse(comboBoxN.SelectedItem + string.Empty);
 
             logic.FillNumbers(series, size, sizeOfRows);
         }
 
-        private void buttonCulc_Click(object sender, RoutedEventArgs e)
+        private void buttonCulculate_Click(object sender, RoutedEventArgs e)
         {
-            //try
-            //{
-
-            var size = int.Parse(comboBoxN.SelectedValue + "");
-            var moValue = int.Parse(textBoxMO.Text);
-
-            var numberOfSeries = 0;
-            if (comboBoxNumberOfSeries.SelectedValue != null)
+            try
             {
-                numberOfSeries = int.Parse(comboBoxNumberOfSeries.SelectedValue.ToString());
+                var size = int.Parse(comboBoxN.SelectedValue + string.Empty);
+                var moValue = int.Parse(textBoxMO.Text);
+
+                var numberOfSeries = 0;
+
+                if (comboBoxNumberOfSeries.SelectedValue != null)
+                {
+                    numberOfSeries = int.Parse(comboBoxNumberOfSeries.SelectedValue.ToString());
+                }
+                else
+                {
+                    numberOfSeries = series[0].SizeOfSeries;
+                }
+
+                for (var i = 0; i < numberOfSeries; i++)
+                {
+                    series[i].Size = size;
+                    series[i].SizeOfSeries = numberOfSeries;
+                    series[i].MOValue = moValue;
+                }
+
+
+                var best = solver.Culculate(series);
+
+                var bestMedNumber = "";
+
+                switch (best)
+                {
+                    case 1:
+                        bestMedNumber = tabControlItemA.Header + "";
+                        break;
+                    case 2:
+                        bestMedNumber = tabControlItemB.Header + "";
+                        break;
+                    case 3:
+                        bestMedNumber = tabControlItemC.Header + "";
+                        break;
+                    default:
+                        bestMedNumber = "";
+                        break;
+                }
+
+                labelAnswer.Content = series[best - 1].Name + " - наиболее эффективный препарат!";
+
+                //TODO: refactor
+                info.ShowInfo(series);
+
+                DrawGraphic();
+                buttonMakeReport.IsEnabled = true;
+                buttonSaveGraph.IsEnabled = true;
             }
-            else
+            catch (Exception ex)
             {
-                numberOfSeries = series[0].SizeOfSeries;
+                MessageBox.Show(ex.Message);
             }
-
-            for (var i = 0; i < numberOfSeries; i++)
-            {
-                series[i].Size = size;
-                series[i].SizeOfSeries = numberOfSeries;
-                series[i].MOValue = moValue;
-            }
-
-
-            var best = solver.Culculate(series);
-
-            var bestMedNumber = "";
-
-            switch (best)
-            {
-                case 1:
-                    bestMedNumber = tabControlItemA.Header + "";
-                    break;
-                case 2:
-                    bestMedNumber = tabControlItemB.Header + "";
-                    break;
-                case 3:
-                    bestMedNumber = tabControlItemC.Header + "";
-                    break;
-                default:
-                    bestMedNumber = "";
-                    break;
-            }
-
-            labelAnswer.Content = series[best - 1].Name + " - наиболее эффективный препарат!";
-
-            //TODO: refactor
-            info.ShowInfo(series);
-
-            Draw();
-            buttonMakeReport.IsEnabled = true;
-            buttonSaveGraph.IsEnabled = true;
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
         }
 
         private void buttonSave_Click(object sender, RoutedEventArgs e)
         {
-            var size = int.Parse(comboBoxN.Text);
-            var sizeOfSeries = int.Parse(comboBoxNumberOfSeries.Text);
-
             access.Save("DefaultSave.xml", series);
         }
 
         private void buttonLoad_Click(object sender, RoutedEventArgs e)
         {
             series = access.Load("DefaultSave.xml");
-
-
+            
             InitData();
 
-            Draw();
-            buttonCulc_Click(sender, e);
+            DrawGraphic();
+            buttonCulculate_Click(sender, e);
         }
 
         private void buttonLoadAs_Click(object sender, RoutedEventArgs e)
         {
-            var openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "XML documents |*.xml";
-
-            if (openFileDialog.ShowDialog() == true)
+            var openFileDialog = new OpenFileDialog
             {
-                var fileName = openFileDialog.FileName;
-                series = access.Load(fileName);
+                Filter = "XML documents |*.xml"
+            };
 
-                InitData();
-                Draw();
-            }
+            if (openFileDialog.ShowDialog() != true)
+                return;
+
+            var fileName = openFileDialog.FileName;
+            series = access.Load(fileName);
+
+            InitData();
+            DrawGraphic();
         }
 
         public void InitData()
@@ -201,9 +202,9 @@ namespace CBA.Presentation
             textBoxSeriesName2.Text = series[1].Name;
             textBoxSeriesName3.Text = series[2].Name;
 
-            dataGridA.ItemsSource = series[0].a.Data.DefaultView;
-            dataGridB.ItemsSource = series[1].a.Data.DefaultView;
-            dataGridC.ItemsSource = series[2].a.Data.DefaultView;
+            dataGridA.ItemsSource = series[0].DataArray.Data.DefaultView;
+            dataGridB.ItemsSource = series[1].DataArray.Data.DefaultView;
+            dataGridC.ItemsSource = series[2].DataArray.Data.DefaultView;
         }
 
         private void buttonSaveGraph_Click(object sender, RoutedEventArgs e)
@@ -224,53 +225,55 @@ namespace CBA.Presentation
             series[1].Name = textBoxSeriesName2.Text;
             series[2].Name = textBoxSeriesName3.Text;
 
-            labelInstr1.Content = "- " + textBoxSeriesName1.Text;
-            labelInstr2.Content = "- " + textBoxSeriesName2.Text;
-            labelInstr3.Content = "- " + textBoxSeriesName3.Text;
+            var connectorSign = "- ";
+
+            labelInstr1.Content = connectorSign + textBoxSeriesName1.Text;
+            labelInstr2.Content = connectorSign + textBoxSeriesName2.Text;
+            labelInstr3.Content = connectorSign + textBoxSeriesName3.Text;
         }
 
-        //TODO: make optimization
         private void buttonMakeReport_Click(object sender, RoutedEventArgs e)
         {
-            var fileName = "";
+            var fileName = string.Empty;
 
-            var saveFileDialog2 = new SaveFileDialog();
-            saveFileDialog2.DefaultExt = ".pdf";
-            saveFileDialog2.Filter = "PDF files|*.pdf";
-
-            var numberOfSeries = (int) comboBoxNumberOfSeries.SelectedValue;
-
-            if (saveFileDialog2.ShowDialog() == true)
+            var saveFileDialog2 = new SaveFileDialog
             {
-                try
-                {
-                    fileName = saveFileDialog2.FileName;
+                DefaultExt = ".pdf",
+                Filter = "PDF files|*.pdf"
+            };
 
-                    var nameA = tabControlItemA.Header.ToString();
-                    var nameB = tabControlItemB.Header.ToString();
-                    var nameC = tabControlItemC.Header.ToString();
+            if (saveFileDialog2.ShowDialog() != true)
+                return;
 
-                    //logic.MakeReport(fileName, nameA, nameB, nameC, series, a, numberOfSeries);
-                }
-                catch
-                {
-                    MessageBox.Show("Закройте PDF файл (" + fileName + ") и попробуйте еще раз!", "Сообщение");
-                }
+            try
+            {
+                fileName = saveFileDialog2.FileName;
+
+                //TODO: remove numberOfSeries
+                var numberOfSeries = (int)comboBoxNumberOfSeries.SelectedValue;
+
+                _reportManager.MakeReport(fileName, series, numberOfSeries);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show($"Что-то пошло не так. Закройте PDF файл ({ fileName }) и попробуйте еще раз!", "Сообщение");
             }
         }
 
         private void buttonSaveAs_Click(object sender, RoutedEventArgs e)
         {
-            var saveFileDialog = new SaveFileDialog();
-            saveFileDialog.DefaultExt = ".xml";
-            saveFileDialog.Filter = "XML documents |*.xml";
-
-            if (saveFileDialog.ShowDialog() == true)
+            var saveFileDialog = new SaveFileDialog
             {
-                var fileName = saveFileDialog.FileName;
+                DefaultExt = ".xml",
+                Filter = "XML documents |*.xml"
+            };
 
-                access.Save(fileName, series);
-            }
+            if (saveFileDialog.ShowDialog() != true)
+                return;
+
+            var fileName = saveFileDialog.FileName;
+
+            access.Save(fileName, series);
         }
 
         private void comboBoxN_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -282,7 +285,7 @@ namespace CBA.Presentation
 
         private void canvasGraph_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            Draw();
+            DrawGraphic();
         }
 
         private void comboBoxNumberOfSeries_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -331,7 +334,7 @@ namespace CBA.Presentation
             for (var i = 0; i < series[0].SizeOfSeries; i++)
             {
                 series[i] = new Series(n);
-                series[i].a = new DataArray(n);
+                series[i].DataArray = new DataArray(n);
                 series[i].Size = n;
                 series[i].SizeOfSeries = int.Parse(comboBoxNumberOfSeries.SelectedValue.ToString());
                 series[i].MOValue = int.Parse(textBoxMO.Text); //!!!
@@ -340,7 +343,7 @@ namespace CBA.Presentation
             InitTable(n);
             info.ShowInfo(series);
 
-            Draw();
+            DrawGraphic();
         }
 
         private void menuItemFileExit_Click(object sender, RoutedEventArgs e)
@@ -363,18 +366,22 @@ namespace CBA.Presentation
 
         private void menuItemAbout_Click(object sender, RoutedEventArgs e)
         {
-            var a = new AboutBox();
-            a.Text = "О программе";
-            a.labelProductName.Text = "Расчет биологической активности препарата";
-            a.Show();
+            var aboutBox = new AboutBox
+            {
+                Text = "О программе",
+                labelProductName = {Text = "Расчет биологической активности препарата"}
+            };
+
+            aboutBox.Show();
         }
 
-        public void Draw()
+        public void DrawGraphic()
         {
             var size = 0;
+
             if (comboBoxNumberOfSeries.SelectedItem != null)
             {
-                size = int.Parse(comboBoxNumberOfSeries.SelectedItem + "");
+                size = int.Parse(comboBoxNumberOfSeries.SelectedItem + string.Empty);
             }
 
             if (size == 0)
@@ -386,129 +393,143 @@ namespace CBA.Presentation
 
             for (var i = 0; i < size; i++)
             {
-                list.Add(series[i].ratio);
+                list.Add(series[i].Ratio);
             }
 
             canvasGraph.Children.Clear();
+
             double xMin = 0;
             double xMax = 6;
             double yMin = 0;
+            var yMax = double.Parse(comboBoxN.SelectedValue + string.Empty) * 23;
 
             var border = 30; //отступ
 
-            var yMax = double.Parse(comboBoxN.SelectedValue + "")*23;
             var width = canvasGraph.ActualWidth;
             var height = canvasGraph.ActualHeight;
-            var xScale = width/(xMax - xMin);
-            var yScale = height/(yMax - yMin);
-            var x0 = -xMin*xScale + border;
-            var y0 = yMax*yScale - border;
+            var xScale = width / (xMax - xMin);
+            var yScale = height / (yMax - yMin);
+            var x0 = -xMin * xScale + border;
+            var y0 = yMax * yScale - border;
 
-            //оси
+            #region DRAW MAIN LINES
             AddLine(Brushes.Black, border, height - border, width - border, height - border);
             AddLine(Brushes.Black, border, 20, border, height - border);
             AddText("0", x0 + 2, y0 + 0);
             AddText("Разведение", width - 100, y0 - 20);
             AddText("Размер\nалергической\nреакции (mm)", x0, 0);
+            #endregion
 
-            //сетка
+            #region DRAW GRID
             double xStep = 1; //шаг сетки
 
-            while (xStep*xScale < 25)
+            while (xStep * xScale < 25)
             {
                 xStep *= 10;
             }
 
-            while (xStep*xScale > 250)
+            while (xStep * xScale > 250)
             {
                 xStep /= 10;
             }
 
             for (var dx = xStep; dx < xMax; dx += xStep)
             {
-                var x = x0 + dx*xScale;
+                var x = x0 + dx * xScale;
             }
 
-            AddText(string.Format("{0:0.###}", "I"), 1*xScale + border + 2, y0);
-            AddText(string.Format("{0:0.###}", "II"), 4*xScale + border + 2, y0);
+            AddText("I", 1 * xScale + border + 2, y0);
+            AddText("II", 4 * xScale + border + 2, y0);
 
             double yStep = 1; //шаг сетки
 
-            while (yStep*yScale < 20)
+            while (yStep * yScale < 20)
                 yStep *= 10;
 
-            while (yStep*yScale > 40)
+            while (yStep * yScale > 40)
                 yStep /= 3;
 
-            for (var dy = yStep; dy < yMax - yMax*0.2; dy += yStep)
+            for (var dy = yStep; dy < yMax - yMax * 0.2; dy += yStep)
             {
-                var y = y0 - dy*yScale;
+                var y = y0 - dy * yScale;
                 AddLine(Brushes.LightGray, x0, y, width - border, y);
                 AddText(string.Format("{0:0}", dy), x0 - 20, y - 2);
             }
+            #endregion
 
-            //графики
-            var br = new Brush[3] {Brushes.Blue, Brushes.Yellow, Brushes.Green};
+            #region DRAW GRAPH
+            var brush = new Brush[3] { Brushes.Blue, Brushes.Yellow, Brushes.Green };
 
             for (var i = 0; i < size; i++)
             {
-                if (series[i].ratio > 0) //series[i].ratio != -1
+                if (series[i].Ratio > 0) //series[i].Ratio != -1
                 {
-                    if (series[i].ratio == list.Max())
+                    if (series[i].Ratio == list.Max())
                     {
                         canvasGraph.Children.Add(new Line
                         {
-                            X1 = 1*xScale + 5 + border,
-                            X2 = 4*xScale + 5 + border,
-                            Y1 = y0 - series[i].breeding[0]*yScale + 5,
-                            Y2 = y0 - series[i].breeding[1]*yScale + 5,
-                            Stroke = br[i]
+                            X1 = 1 * xScale + 5 + border,
+                            X2 = 4 * xScale + 5 + border,
+                            Y1 = y0 - series[i].Breeding[0] * yScale + 5,
+                            Y2 = y0 - series[i].Breeding[1] * yScale + 5,
+                            Stroke = brush[i]
                         });
                     }
                     else
                     {
                         canvasGraph.Children.Add(new Line
                         {
-                            X1 = 1*xScale + 5 + border,
-                            X2 = 4*xScale + 5 + border,
-                            Y1 = y0 - series[i].breeding[0]*yScale + 5,
-                            Y2 = y0 - series[i].breeding[1]*yScale + 5,
+                            X1 = 1 * xScale + 5 + border,
+                            X2 = 4 * xScale + 5 + border,
+                            Y1 = y0 - series[i].Breeding[0] * yScale + 5,
+                            Y2 = y0 - series[i].Breeding[1] * yScale + 5,
                             Stroke = Brushes.Gray
                         });
                     }
 
                     canvasGraph.Children.Add(new Ellipse
                     {
-                        Fill = br[i],
-                        Stroke = br[i],
+                        Fill = brush[i],
+                        Stroke = brush[i],
                         Width = 10,
                         Height = 10,
-                        Margin = new Thickness(1*xScale + border, y0 - series[i].breeding[0]*yScale, 0, 0)
+                        Margin = new Thickness(1 * xScale + border, y0 - series[i].Breeding[0] * yScale, 0, 0)
                     });
 
                     canvasGraph.Children.Add(new Ellipse
                     {
-                        Fill = br[i],
-                        Stroke = br[i],
+                        Fill = brush[i],
+                        Stroke = brush[i],
                         Width = 10,
                         Height = 10,
-                        Margin = new Thickness(4*xScale + border, y0 - series[i].breeding[1]*yScale, 0, 0)
+                        Margin = new Thickness(4 * xScale + border, y0 - series[i].Breeding[1] * yScale, 0, 0)
                     });
                 }
             }
+            #endregion
         }
 
         private void AddLine(Brush stroke, double x1, double y1, double x2, double y2)
         {
-            canvasGraph.Children.Add(new Line {X1 = x1, X2 = x2, Y1 = y1, Y2 = y2, Stroke = stroke});
+            canvasGraph.Children.Add(new Line
+            {
+                X1 = x1,
+                X2 = x2,
+                Y1 = y1,
+                Y2 = y2,
+                Stroke = stroke
+            });
         }
 
         private void AddText(string text, double x, double y)
         {
-            var textBlock = new TextBlock();
-            textBlock.Text = text;
-            textBlock.Foreground = Brushes.Black;
-            // Визначення координат блоку. "Приєднані" властивості 
+            var textBlock = new TextBlock
+            {
+                Text = text,
+                Foreground = Brushes.Black
+            };
+
+            //Определение координат блока
             Canvas.SetLeft(textBlock, x);
             Canvas.SetTop(textBlock, y);
             canvasGraph.Children.Add(textBlock);

@@ -22,7 +22,7 @@
             <Button Name="buttonFill" Content="Заполнить" HorizontalAlignment="Left" Margin="206,11,0,0"
                     VerticalAlignment="Top" Width="160" Height="21" Click="buttonFill_Click" Background="White"  />
             <Button Name="buttonCulc" Content="СЧИТАТЬ" HorizontalAlignment="Left" Margin="206,36,0,0"
-                    VerticalAlignment="Top" Width="160" Height="51" Click="buttonCulc_Click" Foreground="#FFFFFF" Background="#4B8DF8" />
+                    VerticalAlignment="Top" Width="160" Height="51" Click="buttonCulculate_Click" Foreground="#FFFFFF" Background="#4B8DF8" />
             <TextBox Name="textBoxMO" HorizontalAlignment="Left" Height="23" Margin="149,64,0,0" TextWrapping="Wrap"
                      Text="50000" VerticalAlignment="Top" Width="47" />
             <Button Name="buttonSaveGraph" Content="Информация" Click="buttonSaveGraph_Click"
@@ -83,7 +83,7 @@
                 <MenuItem Name="menuItemFileExit" Header="Выход" Click="menuItemFileExit_Click" />
             </MenuItem>
             <MenuItem Name="menuItemAction" Header="Работа">
-                <MenuItem Name="menuItemActionAnalise" Header="Считать" Click="buttonCulc_Click" />
+                <MenuItem Name="menuItemActionAnalise" Header="Считать" Click="buttonCulculate_Click" />
                 <MenuItem Name="menuItemActionSaveReport" Header="Сохранить отчет" Click="buttonMakeReport_Click" />
             </MenuItem>
             <MenuItem Header="Справка">

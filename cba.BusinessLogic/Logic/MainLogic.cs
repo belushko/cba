@@ -15,11 +15,11 @@ namespace CBA.BusinessLogic.Logic
                 {
                     for (var j = 0; j < 12; j++)
                     {
-                        series[k].a[i][j] = random.Next(7, 12);
+                        series[k].DataArray[i][j] = random.Next(7, 12);
 
                         if ((j + 1)%3 == 0)
                         {
-                            series[k].a[i][j] = 0; //i row j column
+                            series[k].DataArray[i][j] = 0; //i row j column
                         }
                     }
                 }
@@ -34,10 +34,10 @@ namespace CBA.BusinessLogic.Logic
                 {
                     for (var j = 0; j < 12; j++)
                     {
-                        a[k][i][j] = series[k].a[i][j];
+                        a[k][i][j] = series[k].DataArray[i][j];
                     }
                 }
             }
-        }      
+        }
     }
 }

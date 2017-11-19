@@ -18,7 +18,7 @@ namespace CBA.BusinessLogic.Logic
                 {
                     for (var j = 0; j < 12; j++)
                     {
-                        if (series[k].a[i][j] < 0)
+                        if (series[k].DataArray[i][j] < 0)
                         {
                             isTableValid = false;
                         }
@@ -60,12 +60,12 @@ namespace CBA.BusinessLogic.Logic
 
         private double FindRatio(Series a)
         {
-            return (a.breeding[0] + a.breeding[1])/2;
+            return (a.Breeding[0] + a.Breeding[1])/2;
         }
 
         private bool IsInRange(Series a)
         {
-            if ((a.activity > 40000) && (a.activity < 60000))
+            if ((a.Activity > 40000) && (a.Activity < 60000))
             {
                 return true;
             }
@@ -77,11 +77,11 @@ namespace CBA.BusinessLogic.Logic
         {
             if (IsInRange(a))
             {
-                a.ratio = FindRatio(a);
+                a.Ratio = FindRatio(a);
                 return true;
             }
 
-            a.ratio = -1;
+            a.Ratio = -1;
 
             return false;
         }
@@ -89,7 +89,7 @@ namespace CBA.BusinessLogic.Logic
         private int FindBestMed(params Series[] series)
         {
             double valueOfBest = 0;
-            var l = series.Select(a => a.ratio).ToList();
+            var l = series.Select(a => a.Ratio).ToList();
             valueOfBest = l.Max();
             var numberOfBest = l.IndexOf(valueOfBest) + 1;
 

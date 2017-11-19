@@ -118,6 +118,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Fonts\times.ttf" />
+    <Resource Include="Fonts\timesbd.ttf" />
+    <Resource Include="Fonts\timesbi.ttf" />
+    <Resource Include="Fonts\timesi.ttf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -135,6 +139,9 @@
       <Project>{dfa95190-6cc8-4e32-86d1-7fa734414365}</Project>
       <Name>CBA.BusinessLogic</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

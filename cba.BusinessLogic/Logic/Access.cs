@@ -45,7 +45,7 @@ namespace CBA.BusinessLogic.Logic
             for (var k = 0; k < series[0].SizeOfSeries; k++)
             {
                 seriesModel[k] = new SeriesModel();
-                seriesModel[k].items = new List<double[]>();
+                seriesModel[k].Items = new List<double[]>();
 
                 seriesModel[k].SizeOfSeries = series[k].SizeOfSeries;
                 seriesModel[k].Size = series[k].Size;
@@ -57,14 +57,14 @@ namespace CBA.BusinessLogic.Logic
 
                     for (var j = 0; j < 12; j++)
                     {
-                        mas[j] = series[k].a[i][j];
+                        mas[j] = series[k].DataArray[i][j];
                     }
 
-                    seriesModel[k].items.Add(mas);
+                    seriesModel[k].Items.Add(mas);
                     seriesModel[k].Name = series[k].Name;
-                    seriesModel[k].activity = series[k].activity;
-                    seriesModel[k].ratio = series[k].ratio;
-                    seriesModel[k].breeding = series[k].breeding;
+                    seriesModel[k].Activity = series[k].Activity;
+                    seriesModel[k].Ratio = series[k].Ratio;
+                    seriesModel[k].Breeding = series[k].Breeding;
                 }
             }
 
@@ -79,7 +79,7 @@ namespace CBA.BusinessLogic.Logic
             for (var k = 0; k < seriesModel[0].SizeOfSeries; k++)
             {
                 series[k] = new Series();
-                series[k].a = new DataArray(seriesModel[0].Size);
+                series[k].DataArray = new DataArray(seriesModel[0].Size);
 
                 series[k].SizeOfSeries = seriesModel[k].SizeOfSeries;
                 series[k].Size = seriesModel[k].Size;
@@ -87,17 +87,17 @@ namespace CBA.BusinessLogic.Logic
 
                 for (var i = 0; i < seriesModel[0].Size; i++)
                 {
-                    var mas = seriesModel[k].items[i];
+                    var mas = seriesModel[k].Items[i];
 
                     for (var j = 0; j < 12; j++)
                     {
-                        series[k].a[i][j] = mas[j];
+                        series[k].DataArray[i][j] = mas[j];
                     }
 
                     series[k].Name = seriesModel[k].Name;
-                    series[k].activity = seriesModel[k].activity;
-                    series[k].ratio = seriesModel[k].ratio;
-                    series[k].breeding = seriesModel[k].breeding;
+                    series[k].Activity = seriesModel[k].Activity;
+                    series[k].Ratio = seriesModel[k].Ratio;
+                    series[k].Breeding = seriesModel[k].Breeding;
                 }
             }
 
