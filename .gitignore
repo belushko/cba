@@ -24,3 +24,5 @@ packages/*
 !packages/repositories.config
 Build/*.nupkg
 ClassLibrary/obj/
+cba.BusinessLogic/obj/
+cba.Presentation/bin/

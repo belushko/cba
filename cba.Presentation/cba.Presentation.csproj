@@ -128,13 +128,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibrary\cba.Business.csproj">
-      <Project>{dfa95190-6cc8-4e32-86d1-7fa734414365}</Project>
-      <Name>cba.Business</Name>
-    </ProjectReference>
+    <None Include="icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="icon.png" />
+    <ProjectReference Include="..\cba.BusinessLogic\cba.BusinessLogic.csproj">
+      <Project>{dfa95190-6cc8-4e32-86d1-7fa734414365}</Project>
+      <Name>cba.BusinessLogic</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
