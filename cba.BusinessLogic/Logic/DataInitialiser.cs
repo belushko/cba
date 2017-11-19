@@ -3,9 +3,9 @@ using CBA.BusinessLogic.Models;
 
 namespace CBA.BusinessLogic.Logic
 {
-    public class MainLogic
+    public class DataInitialiser
     {
-        public void FillNumbers(Series[] series, int size, int sizeOfRows)
+        public void FillNumbersByDefault(Series[] series, int size, int sizeOfRows)
         {
             var random = new Random(unchecked((int) DateTime.Now.Ticks));
 

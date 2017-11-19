@@ -1,43 +1,14 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Xml.Serialization;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using CBA.BusinessLogic.Models;
 
 namespace CBA.BusinessLogic.Logic
 {
-    public class Access
+    public class Mapper
     {
-        public void Save(string fileName, params Series[] series)
-        {
-            var seriesModel = new SeriesModel[3];
-
-            seriesModel = SeriesToModel(series);
-
-            var serializer = new XmlSerializer(typeof (SeriesModel[]));
-
-            using (TextWriter textWriter = new StreamWriter(fileName))
-            {
-                serializer.Serialize(textWriter, seriesModel);
-            }
-        }
-
-        //TODO: refactor
-        public Series[] Load(string fileName)
-        {
-            SeriesModel[] seriesModel;
-
-            var deserializer = new XmlSerializer(typeof (SeriesModel[]));
-
-            using (TextReader textReader = new StreamReader(fileName))
-            {
-                seriesModel = (SeriesModel[]) deserializer.Deserialize(textReader);
-            }
-
-            var series = ModelToSeries(seriesModel);
-
-            return series;
-        }
-
         public SeriesModel[] SeriesToModel(Series[] series)
         {
             var seriesModel = new SeriesModel[3];
@@ -102,6 +73,6 @@ namespace CBA.BusinessLogic.Logic
             }
 
             return series;
-        }     
+        }
     }
 }

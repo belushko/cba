@@ -34,12 +34,11 @@ namespace CBA.BusinessLogic.Logic
             }
         }
 
-        public void FindActivityValue(Series series)
+        public void FindActivityValue(Series series, double mOValue)
         {
             series.Activity =
                 (series.Breeding[0] + series.Breeding[1])
-                / (series.Breeding[2] + series.Breeding[3])
-                * series.MOValue;
+                / (series.Breeding[2] + series.Breeding[3]) * mOValue;
         }
     }
 }

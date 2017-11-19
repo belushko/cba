@@ -14,12 +14,12 @@ namespace CBA.Presentation
     public partial class MainWindow : Window
     {
         private readonly DataArray[] a = new DataArray[3];
-        private readonly Access access = new Access();
+        private readonly DataManager _dataManager = new DataManager();
         private readonly ReportManager _reportManager = new ReportManager();
 
         private readonly bool first = true;
 
-        private readonly MainLogic logic = new MainLogic();
+        private readonly DataInitialiser logic = new DataInitialiser();
         private readonly Solver solver = new Solver();
         private InfoWindow info = new InfoWindow();
         private Series[] series = new Series[3];
@@ -37,16 +37,19 @@ namespace CBA.Presentation
                 comboBoxNumberOfSeries.Items.Add(i);
             comboBoxNumberOfSeries.SelectedItem = 3;
 
-            var size = int.Parse(comboBoxN.SelectedValue + "");
+            var size = int.Parse(comboBoxN.SelectedValue + string.Empty);
             var numberOfSeries = int.Parse(comboBoxNumberOfSeries.SelectedValue.ToString());
 
             for (var i = 0; i < 3; i++)
             {
-                series[i] = new Series(size);
-                series[i].DataArray = new DataArray(size);
-                series[i].Size = size;
-                series[i].SizeOfSeries = numberOfSeries;
-                series[i].MOValue = int.Parse(textBoxMO.Text); //!!!
+                series[i] = new Series(size)
+                {
+                    DataArray = new DataArray(size),
+                    Size = size,
+                    SizeOfSeries = numberOfSeries,
+                    //TODO:remove mo valueІ
+                    MOValue = int.Parse(textBoxMO.Text)
+                };
             }
 
             series[0].Name = "A";
@@ -60,9 +63,12 @@ namespace CBA.Presentation
         {
             for (var i = 0; i < 3; i++)
             {
-                series[i] = new Series(n);
+                series[i] = new Series(n)
+                {
+                    DataArray = new DataArray(n)
+                };
+
                 //TODO: remove
-                series[i].DataArray = new DataArray(n);
                 series[0].Size = n;
                 //Series.SizeOfSeries = int.Parse(comboBoxNumberOfSeries.SelectedValue.ToString());
                 series[0].MOValue = int.Parse(textBoxMO.Text); //!!!
@@ -97,7 +103,7 @@ namespace CBA.Presentation
             var size = int.Parse(comboBoxNumberOfSeries.SelectedItem + string.Empty);
             var sizeOfRows = int.Parse(comboBoxN.SelectedItem + string.Empty);
 
-            logic.FillNumbers(series, size, sizeOfRows);
+            logic.FillNumbersByDefault(series, size, sizeOfRows);
         }
 
         private void buttonCulculate_Click(object sender, RoutedEventArgs e)
@@ -106,7 +112,6 @@ namespace CBA.Presentation
             {
                 var size = int.Parse(comboBoxN.SelectedValue + string.Empty);
                 var moValue = int.Parse(textBoxMO.Text);
-
                 var numberOfSeries = 0;
 
                 if (comboBoxNumberOfSeries.SelectedValue != null)
@@ -125,28 +130,8 @@ namespace CBA.Presentation
                     series[i].MOValue = moValue;
                 }
 
-
                 var best = solver.Culculate(series);
-
-                var bestMedNumber = "";
-
-                switch (best)
-                {
-                    case 1:
-                        bestMedNumber = tabControlItemA.Header + "";
-                        break;
-                    case 2:
-                        bestMedNumber = tabControlItemB.Header + "";
-                        break;
-                    case 3:
-                        bestMedNumber = tabControlItemC.Header + "";
-                        break;
-                    default:
-                        bestMedNumber = "";
-                        break;
-                }
-
-                labelAnswer.Content = series[best - 1].Name + " - наиболее эффективный препарат!";
+                labelAnswer.Content = $"{ series[best - 1].Name } - наиболее эффективный препарат!";
 
                 //TODO: refactor
                 info.ShowInfo(series);
@@ -163,12 +148,12 @@ namespace CBA.Presentation
 
         private void buttonSave_Click(object sender, RoutedEventArgs e)
         {
-            access.Save("DefaultSave.xml", series);
+            _dataManager.SaveDataToFile("DefaultSave.xml", series);
         }
 
         private void buttonLoad_Click(object sender, RoutedEventArgs e)
         {
-            series = access.Load("DefaultSave.xml");
+            series = _dataManager.LoadDataFromFile("DefaultSave.xml");
             
             InitData();
 
@@ -187,7 +172,7 @@ namespace CBA.Presentation
                 return;
 
             var fileName = openFileDialog.FileName;
-            series = access.Load(fileName);
+            series = _dataManager.LoadDataFromFile(fileName);
 
             InitData();
             DrawGraphic();
@@ -273,7 +258,7 @@ namespace CBA.Presentation
 
             var fileName = saveFileDialog.FileName;
 
-            access.Save(fileName, series);
+            _dataManager.SaveDataToFile(fileName, series);
         }
 
         private void comboBoxN_SelectionChanged(object sender, SelectionChangedEventArgs e)

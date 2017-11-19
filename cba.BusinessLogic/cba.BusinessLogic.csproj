@@ -44,10 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Logic\Access.cs" />
+    <Compile Include="Logic\DataManager.cs" />
     <Compile Include="Logic\DataArray.cs" />
     <Compile Include="Logic\DataArrayRow.cs" />
-    <Compile Include="Logic\MainLogic.cs" />
+    <Compile Include="Logic\DataInitialiser.cs" />
+    <Compile Include="Logic\Mapper.cs" />
     <Compile Include="Logic\ReportManager.cs" />
     <Compile Include="Logic\SeriesManager.cs" />
     <Compile Include="Models\SeriesModel.cs" />

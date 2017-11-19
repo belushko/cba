@@ -6,17 +6,19 @@ namespace CBA.BusinessLogic.Logic
 {
     public class Solver
     {
-        public int bestMedNum; //номер лучшего припарата
+        public int bestDrugNumber = 1; //номер лучшего припарата
 
         public int Culculate(Series[] series)
         {
             var isTableValid = true;
 
+            var numberOfColumns = 12;
+
             for (var k = 0; k < series[0].SizeOfSeries; k++)
             {
                 for (var i = 0; i < series[0].Size; i++)
                 {
-                    for (var j = 0; j < 12; j++)
+                    for (var j = 0; j < numberOfColumns; j++)
                     {
                         if (series[k].DataArray[i][j] < 0)
                         {
@@ -31,10 +33,11 @@ namespace CBA.BusinessLogic.Logic
                 for (var i = 0; i < series[0].SizeOfSeries; i++)
                 {
                     var seriesManager = new SeriesManager();
+                    var mOValue = series[0].MOValue;
 
                     seriesManager.FindMidValues(series[i]);
                     seriesManager.FindBreedingSum(series[i]);
-                    seriesManager.FindActivityValue(series[i]);
+                    seriesManager.FindActivityValue(series[i], mOValue);
                 }
 
                 var isSeriesValid = true;
@@ -49,23 +52,23 @@ namespace CBA.BusinessLogic.Logic
 
                 if (isSeriesValid)
                 {
-                    bestMedNum = FindBestMed(series);
+                    bestDrugNumber = FindBestDrugNumber(series);
                 }
 
-                return bestMedNum;
+                return bestDrugNumber;
             }
 
             throw new Exception("Не все препараты прошли проверку!");
         }
 
-        private double FindRatio(Series a)
+        private double FindRatio(Series series)
         {
-            return (a.Breeding[0] + a.Breeding[1])/2;
+            return (series.Breeding[0] + series.Breeding[1]) / 2;
         }
 
-        private bool IsInRange(Series a)
+        private bool IsInRange(Series series)
         {
-            if ((a.Activity > 40000) && (a.Activity < 60000))
+            if ((40000 < series.Activity) && (series.Activity < 60000))
             {
                 return true;
             }
@@ -73,25 +76,30 @@ namespace CBA.BusinessLogic.Logic
             return false;
         }
 
-        private bool IsChecked(Series a)
+        private bool IsChecked(Series series)
         {
-            if (IsInRange(a))
+            if (IsInRange(series))
             {
-                a.Ratio = FindRatio(a);
+                series.Ratio = FindRatio(series);
+
                 return true;
             }
 
-            a.Ratio = -1;
+            series.Ratio = -1;
 
             return false;
         }
 
-        private int FindBestMed(params Series[] series)
+        //TODO: remake method
+        private int FindBestDrugNumber(params Series[] series)
         {
             double valueOfBest = 0;
-            var l = series.Select(a => a.Ratio).ToList();
-            valueOfBest = l.Max();
-            var numberOfBest = l.IndexOf(valueOfBest) + 1;
+
+            var ratioList = series.Select(serie => serie.Ratio).ToList();
+
+            valueOfBest = ratioList.Max();
+
+            var numberOfBest = ratioList.IndexOf(valueOfBest) + 1;
 
             return numberOfBest;
         }
