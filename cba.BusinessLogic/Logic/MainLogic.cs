@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace cba.Logic
+namespace CBA.BusinessLogic.Logic
 {
     public class MainLogic
     {

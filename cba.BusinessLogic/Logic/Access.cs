@@ -2,7 +2,7 @@
 using System.IO;
 using System.Xml.Serialization;
 
-namespace cba.Logic
+namespace CBA.BusinessLogic.Logic
 {
     public class Access
     {

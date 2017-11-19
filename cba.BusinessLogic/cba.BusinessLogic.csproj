@@ -7,8 +7,8 @@
     <ProjectGuid>{DFA95190-6CC8-4E32-86D1-7FA734414365}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ClassLibrary</RootNamespace>
-    <AssemblyName>ClassLibrary</AssemblyName>
+    <RootNamespace>CBA.BusinessLogic</RootNamespace>
+    <AssemblyName>CBA.BusinessLogic</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

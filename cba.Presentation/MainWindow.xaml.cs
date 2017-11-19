@@ -4,10 +4,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using cba.Logic;
+using CBA.BusinessLogic.Logic;
 using Microsoft.Win32;
 
-namespace cba
+namespace CBA.Presentation
 {
     public partial class MainWindow : Window
     {

@@ -1,4 +1,4 @@
-﻿namespace cba
+﻿namespace CBA.Presentation
 {
     partial class AboutBox
     {

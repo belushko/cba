@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows;
-using cba.Logic;
+using CBA.BusinessLogic.Logic;
 
-namespace cba
+namespace CBA.Presentation
 {
     /// <summary>
     ///     Interaction logic for Info.xaml

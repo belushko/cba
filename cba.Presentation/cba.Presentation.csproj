@@ -7,8 +7,8 @@
     <ProjectGuid>{35AD480D-8C76-438E-BE3E-6E4D72DCC048}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Course2</RootNamespace>
-    <AssemblyName>Course2</AssemblyName>
+    <RootNamespace>CBA.Presentation</RootNamespace>
+    <AssemblyName>CBA.Presentation</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -131,9 +131,9 @@
     <None Include="icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\cba.BusinessLogic\cba.BusinessLogic.csproj">
+    <ProjectReference Include="..\cba.BusinessLogic\CBA.BusinessLogic.csproj">
       <Project>{dfa95190-6cc8-4e32-86d1-7fa734414365}</Project>
-      <Name>cba.BusinessLogic</Name>
+      <Name>CBA.BusinessLogic</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

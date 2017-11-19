@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cba.BusinessLogic", "cba.BusinessLogic\cba.BusinessLogic.csproj", "{DFA95190-6CC8-4E32-86D1-7FA734414365}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CBA.BusinessLogic", "cba.BusinessLogic\CBA.BusinessLogic.csproj", "{DFA95190-6CC8-4E32-86D1-7FA734414365}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cba.Presentation", "cba.Presentation\cba.Presentation.csproj", "{35AD480D-8C76-438E-BE3E-6E4D72DCC048}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CBA.Presentation", "cba.Presentation\CBA.Presentation.csproj", "{35AD480D-8C76-438E-BE3E-6E4D72DCC048}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace cba
+namespace CBA.Presentation
 {
     /// <summary>
     /// Логика взаимодействия для AboutWindow.xaml

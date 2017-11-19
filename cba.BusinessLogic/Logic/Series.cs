@@ -1,4 +1,4 @@
-﻿namespace cba.Logic
+﻿namespace CBA.BusinessLogic.Logic
 {
     public class Series
     {

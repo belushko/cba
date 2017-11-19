@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace cba
+namespace CBA.Presentation
 {
     partial class AboutBox : Form
     {

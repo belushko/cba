@@ -1,4 +1,4 @@
-﻿<Window x:Class="cba.MainWindow"
+﻿<Window x:Class="CBA.Presentation.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Расчет биологической активности" Height="652.61" Width="525" WindowStartupLocation="CenterScreen">
