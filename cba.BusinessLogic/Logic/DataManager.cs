@@ -9,28 +9,37 @@ namespace CBA.BusinessLogic.Logic
         public void SaveDataToFile(string fileName, params Series[] series)
         {
             var mapper = new Mapper();
-            var seriesModel = mapper.SeriesToModel(series);
-            var serializer = new XmlSerializer(typeof (SeriesModel[]));
+
+            foreach (var serie in series)
+            {
+                serie.Items = mapper.DataArrayToItems(serie);
+            }
+
+            var serializer = new XmlSerializer(typeof(Series[]));
 
             using (TextWriter textWriter = new StreamWriter(fileName))
             {
-                serializer.Serialize(textWriter, seriesModel);
+                serializer.Serialize(textWriter, series);
             }
         }
 
         public Series[] LoadDataFromFile(string fileName)
         {
-            SeriesModel[] seriesModel;
+            Series[] series;
 
-            var deserializer = new XmlSerializer(typeof (SeriesModel[]));
+            var deserializer = new XmlSerializer(typeof(Series[]));
 
             using (TextReader textReader = new StreamReader(fileName))
             {
-                seriesModel = (SeriesModel[]) deserializer.Deserialize(textReader);
+                series = (Series[])deserializer.Deserialize(textReader);
             }
 
-            var mapper = new  Mapper();
-            var series = mapper.ModelToSeries(seriesModel);
+            var mapper = new Mapper();
+
+            foreach (var serie in series)
+            {
+                serie.DataArray = mapper.ItemsToDataArray(serie);
+            }
 
             return series;
         }

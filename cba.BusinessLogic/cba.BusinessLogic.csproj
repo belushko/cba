@@ -51,7 +51,6 @@
     <Compile Include="Logic\Mapper.cs" />
     <Compile Include="Logic\ReportManager.cs" />
     <Compile Include="Logic\SeriesManager.cs" />
-    <Compile Include="Models\SeriesModel.cs" />
     <Compile Include="Logic\Solver.cs" />
     <Compile Include="Models\Series.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

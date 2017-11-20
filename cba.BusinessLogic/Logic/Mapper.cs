@@ -1,78 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using CBA.BusinessLogic.Models;
 
 namespace CBA.BusinessLogic.Logic
 {
     public class Mapper
     {
-        public SeriesModel[] SeriesToModel(Series[] series)
+        public List<double[]> DataArrayToItems(Series series)
         {
-            var seriesModel = new SeriesModel[3];
-
-            for (var k = 0; k < series[0].SizeOfSeries; k++)
+            var resultSeries = new Series
             {
-                seriesModel[k] = new SeriesModel();
-                seriesModel[k].Items = new List<double[]>();
+                Items = new List<double[]>()
+            };
 
-                seriesModel[k].SizeOfSeries = series[k].SizeOfSeries;
-                seriesModel[k].Size = series[k].Size;
-                seriesModel[k].MOValue = series[k].MOValue;
+            for (var i = 0; i < series.Size; i++)
+            {
+                var data = new double[12];
 
-                for (var i = 0; i < series[k].Size; i++)
+                for (var j = 0; j < 12; j++)
                 {
-                    var mas = new double[12];
-
-                    for (var j = 0; j < 12; j++)
-                    {
-                        mas[j] = series[k].DataArray[i][j];
-                    }
-
-                    seriesModel[k].Items.Add(mas);
-                    seriesModel[k].Name = series[k].Name;
-                    seriesModel[k].Activity = series[k].Activity;
-                    seriesModel[k].Ratio = series[k].Ratio;
-                    seriesModel[k].Breeding = series[k].Breeding;
+                    data[j] = series.DataArray[i][j];
                 }
+
+                resultSeries.Items.Add(data);
             }
 
-            return seriesModel;
+            return resultSeries.Items;
         }
 
-        public Series[] ModelToSeries(SeriesModel[] seriesModel)
+        public DataArray ItemsToDataArray(Series series)
         {
-            var series = new Series[3];
-
-
-            for (var k = 0; k < seriesModel[0].SizeOfSeries; k++)
+            var resultSeries = new Series()
             {
-                series[k] = new Series();
-                series[k].DataArray = new DataArray(seriesModel[0].Size);
+                DataArray = new DataArray(series.Size)
+            };
 
-                series[k].SizeOfSeries = seriesModel[k].SizeOfSeries;
-                series[k].Size = seriesModel[k].Size;
-                series[k].MOValue = seriesModel[k].MOValue;
+            for (var i = 0; i < series.Size; i++)
+            {
+                var data = series.Items[i];
 
-                for (var i = 0; i < seriesModel[0].Size; i++)
+                for (var j = 0; j < 12; j++)
                 {
-                    var mas = seriesModel[k].Items[i];
-
-                    for (var j = 0; j < 12; j++)
-                    {
-                        series[k].DataArray[i][j] = mas[j];
-                    }
-
-                    series[k].Name = seriesModel[k].Name;
-                    series[k].Activity = seriesModel[k].Activity;
-                    series[k].Ratio = seriesModel[k].Ratio;
-                    series[k].Breeding = seriesModel[k].Breeding;
+                    resultSeries.DataArray[i][j] = data[j];
                 }
             }
 
-            return series;
+            return resultSeries.DataArray;
         }
     }
 }
