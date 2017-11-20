@@ -102,8 +102,8 @@ namespace CBA.Presentation
         {
             var size = int.Parse(comboBoxNumberOfSeries.SelectedItem + string.Empty);
 
-            var minValue = 10;
-            var maxValue = 15;
+            var minValue = 5;
+            var maxValue = 17;
 
             for (var i = 0; i < size; i++)
             {
