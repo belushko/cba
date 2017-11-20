@@ -12,7 +12,7 @@ namespace CBA.BusinessLogic.Logic
 
             foreach (var serie in series)
             {
-                serie.Items = mapper.DataArrayToItems(serie);
+                serie.Items = mapper.DataArrayToItems(serie.DataArray);
             }
 
             var serializer = new XmlSerializer(typeof(Series[]));
@@ -38,7 +38,7 @@ namespace CBA.BusinessLogic.Logic
 
             foreach (var serie in series)
             {
-                serie.DataArray = mapper.ItemsToDataArray(serie);
+                serie.DataArray = mapper.ItemsToDataArray(serie.Items);
             }
 
             return series;
