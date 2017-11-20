@@ -12,8 +12,7 @@ namespace CBA.BusinessLogic.Models
         public double[] Breeding { get; set; } = new double[4];
         //public double[] Breeding = new double[4]; //Breeding sum values
 
-        public double Ratio { get; set; }
-        //public double Ratio; //efficiency Ratio
+        public double Ratio { get; set; } //efficiency Ratio
 
         public int SizeOfSeries { set; get; } //number of series (tables)
         public int Size { set; get; } //number of animals (rows)
