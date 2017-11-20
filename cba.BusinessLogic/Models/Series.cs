@@ -6,7 +6,6 @@ namespace CBA.BusinessLogic.Models
     public class Series
     {
         public DataArray DataArray { get; set; }
-        //public DataArray DataArray;
 
         public List<double[]> Items; //table values
 
