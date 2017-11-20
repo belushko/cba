@@ -9,8 +9,7 @@ namespace CBA.BusinessLogic.Models
         public double Activity { get; set; }
         //public double Activity; //biological Activity
 
-        public double[] Breeding { get; set; } = new double[4];
-        //public double[] Breeding = new double[4]; //Breeding sum values
+        public double[] Breeding { get; set; } = new double[4]; //Breeding sum values
 
         public double Ratio { get; set; } //efficiency Ratio
 
