@@ -19,7 +19,7 @@ namespace CBA.Presentation
 
         private readonly bool first = true;
 
-        private readonly DataInitialiser logic = new DataInitialiser();
+        private readonly DataInitialiser _dataInitialiser = new DataInitialiser();
         private readonly Solver solver = new Solver();
         private InfoWindow info = new InfoWindow();
         private Series[] series = new Series[3];
@@ -101,9 +101,15 @@ namespace CBA.Presentation
         private void buttonFill_Click(object sender, RoutedEventArgs e)
         {
             var size = int.Parse(comboBoxNumberOfSeries.SelectedItem + string.Empty);
-            var sizeOfRows = int.Parse(comboBoxN.SelectedItem + string.Empty);
 
-            logic.FillNumbersByDefault(series, size, sizeOfRows);
+            var minValue = 10;
+            var maxValue = 15;
+
+            for (var i = 0; i < size; i++)
+            {
+                //TODO: work only after seconnd call
+                _dataInitialiser.FillSeriesWithDefaultNumbers(series[i], minValue, maxValue);
+            }
         }
 
         private void buttonCulculate_Click(object sender, RoutedEventArgs e)

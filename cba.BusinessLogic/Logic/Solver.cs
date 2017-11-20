@@ -6,13 +6,52 @@ namespace CBA.BusinessLogic.Logic
 {
     public class Solver
     {
-        public int bestDrugNumber = 1; //номер лучшего припарата
-
+        public int bestDrugNumber = 1;
+        
         public int Culculate(Series[] series)
         {
-            var isTableValid = true;
+            if (!IsTableValid(series))
+                throw new Exception("Не все препараты прошли проверку!");
 
-            var numberOfColumns = 12;
+            for (var i = 0; i < series[0].SizeOfSeries; i++)
+            {
+                FindInnerValues(series[i]);
+            }
+
+            if (IsSeriesValid(series))
+            {
+                bestDrugNumber = FindBestDrugNumber(series);
+            }
+
+            return bestDrugNumber;
+        }
+
+        private void FindInnerValues(Series series)
+        {
+            var seriesManager = new SeriesManager();
+            var mOValue = series.MOValue;
+
+            seriesManager.FindMidValues(series);
+            seriesManager.FindBreedingSum(series);
+            seriesManager.FindActivityValue(series, mOValue);
+        }
+
+        private bool IsSeriesValid(Series[] series)
+        {
+            for (var i = 0; i < series[0].SizeOfSeries; i++)
+            {
+                if (!IsChecked(series[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private bool IsTableValid(Series[] series)
+        {
+            const int numberOfColumns = 12;
 
             for (var k = 0; k < series[0].SizeOfSeries; k++)
             {
@@ -22,43 +61,13 @@ namespace CBA.BusinessLogic.Logic
                     {
                         if (series[k].DataArray[i][j] < 0)
                         {
-                            isTableValid = false;
+                            return false;
                         }
                     }
                 }
             }
 
-            if (isTableValid)
-            {
-                for (var i = 0; i < series[0].SizeOfSeries; i++)
-                {
-                    var seriesManager = new SeriesManager();
-                    var mOValue = series[0].MOValue;
-
-                    seriesManager.FindMidValues(series[i]);
-                    seriesManager.FindBreedingSum(series[i]);
-                    seriesManager.FindActivityValue(series[i], mOValue);
-                }
-
-                var isSeriesValid = true;
-
-                for (var i = 0; i < series[0].SizeOfSeries; i++)
-                {
-                    if (!IsChecked(series[i]))
-                    {
-                        isSeriesValid = false;
-                    }
-                }
-
-                if (isSeriesValid)
-                {
-                    bestDrugNumber = FindBestDrugNumber(series);
-                }
-
-                return bestDrugNumber;
-            }
-
-            throw new Exception("Не все препараты прошли проверку!");
+            return true;
         }
 
         private double FindRatio(Series series)
@@ -66,7 +75,7 @@ namespace CBA.BusinessLogic.Logic
             return (series.Breeding[0] + series.Breeding[1]) / 2;
         }
 
-        private bool IsInRange(Series series)
+        private bool IsSeriesInRange(Series series)
         {
             if ((40000 < series.Activity) && (series.Activity < 60000))
             {
@@ -78,7 +87,7 @@ namespace CBA.BusinessLogic.Logic
 
         private bool IsChecked(Series series)
         {
-            if (IsInRange(series))
+            if (IsSeriesInRange(series))
             {
                 series.Ratio = FindRatio(series);
 
