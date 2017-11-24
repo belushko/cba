@@ -216,11 +216,9 @@ namespace CBA.Presentation
             series[1].Name = textBoxSeriesName2.Text;
             series[2].Name = textBoxSeriesName3.Text;
 
-            var connectorSign = "- ";
-
-            labelInstr1.Content = connectorSign + textBoxSeriesName1.Text;
-            labelInstr2.Content = connectorSign + textBoxSeriesName2.Text;
-            labelInstr3.Content = connectorSign + textBoxSeriesName3.Text;
+            labelInstr1.Content = textBoxSeriesName1.Text;
+            labelInstr2.Content = textBoxSeriesName2.Text;
+            labelInstr3.Content = textBoxSeriesName3.Text;
         }
 
         private void buttonMakeReport_Click(object sender, RoutedEventArgs e)
