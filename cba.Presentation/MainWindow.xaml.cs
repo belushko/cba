@@ -100,16 +100,7 @@ namespace CBA.Presentation
 
         private void buttonFill_Click(object sender, RoutedEventArgs e)
         {
-            var size = int.Parse(comboBoxNumberOfSeries.SelectedItem + string.Empty);
-
-            var minValue = 5;
-            var maxValue = 17;
-
-            for (var i = 0; i < size; i++)
-            {
-                //TODO: work only after seconnd call
-                _dataInitialiser.FillSeriesWithDefaultNumbers(series[i], minValue, maxValue);
-            }
+         
         }
 
         private void buttonCulculate_Click(object sender, RoutedEventArgs e)
@@ -401,8 +392,9 @@ namespace CBA.Presentation
             var x0 = -xMin * xScale + border;
             var y0 = yMax * yScale - border;
 
-            var converter = new System.Windows.Media.BrushConverter();
-            var brushLightGrey = (Brush)converter.ConvertFromString("#f4f4f4");
+            var converter = new BrushConverter();
+            var brushLightGrey = (Brush)converter.ConvertFromString("#c9c9c9");
+            var brushGrey = (Brush)converter.ConvertFromString("#d1d1d1");
 
             var brushGreen = (Brush)converter.ConvertFromString("#16c91d");
             var brushOrange = (Brush)converter.ConvertFromString("#ff9a10");
@@ -411,10 +403,9 @@ namespace CBA.Presentation
             #region DRAW MAIN LINES
             AddLine(brushLightGrey, border, height - border, width - border, height - border);
             //AddLine(Brushes.Black, border, 20, border, height - border);
-
-            AddText("0", x0 + 2, y0 + 0);
-            AddText("Разведение", width - 100, y0 - 20);
-            AddText("Размер алергической\nреакции (mm)", x0, 0);
+                    
+            AddText("Разведение", width - 100, y0 + 8);
+            AddText("Размер алергической\nреакции (mm)", x0 - 20, -15);
             #endregion
 
             #region DRAW GRID
@@ -449,11 +440,11 @@ namespace CBA.Presentation
             var topLimitCoeficient = 0.5;
             var linesStepCoeficient = 1.5;
 
-            for (var dy = yStep; dy < yMax - yMax * topLimitCoeficient; dy += yStep)
+            for (double dy = 0; dy < yMax - yMax * topLimitCoeficient; dy += yStep)
             {
                 var y = y0 - dy * yScale * linesStepCoeficient;
-                AddLine(brushLightGrey, x0, y, width - border, y);
-                AddText(string.Format("{0:0}", dy), x0 - 20, y - 2);
+                AddLine(brushGrey, x0, y, width - border, y);
+                AddText(string.Format("{0:0}", dy), x0 - 20, y - 8);
             }
             #endregion
 
@@ -517,19 +508,34 @@ namespace CBA.Presentation
 
         private void AddText(string text, double x, double y)
         {
-            var converter = new System.Windows.Media.BrushConverter();           
-            var brushGrey = (Brush)converter.ConvertFromString("#dbdbdb");
-
+            var converter = new BrushConverter();           
+            var brushGrey = (Brush)converter.ConvertFromString("#d1d1d1");
+            
             var textBlock = new TextBlock
             {
                 Text = text,
-                Foreground = brushGrey
+                Foreground = brushGrey,
+                FontWeight  = FontWeights.Bold
             };
 
             //Определение координат блока
             Canvas.SetLeft(textBlock, x);
             Canvas.SetTop(textBlock, y);
             canvasGraph.Children.Add(textBlock);
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var size = int.Parse(comboBoxNumberOfSeries.SelectedItem + string.Empty);
+
+            var minValue = 5;
+            var maxValue = 17;
+
+            for (var i = 0; i < size; i++)
+            {
+                //TODO: work only after seconnd call
+                _dataInitialiser.FillSeriesWithDefaultNumbers(series[i], minValue, maxValue);
+            }
         }
     }
 }
