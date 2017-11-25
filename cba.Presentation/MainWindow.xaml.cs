@@ -401,16 +401,24 @@ namespace CBA.Presentation
             var x0 = -xMin * xScale + border;
             var y0 = yMax * yScale - border;
 
+            var converter = new System.Windows.Media.BrushConverter();
+            var brushLightGrey = (Brush)converter.ConvertFromString("#f4f4f4");
+
+            var brushGreen = (Brush)converter.ConvertFromString("#16c91d");
+            var brushOrange = (Brush)converter.ConvertFromString("#ff9a10");
+            var brushPurple = (Brush)converter.ConvertFromString("#905fff");
+
             #region DRAW MAIN LINES
-            AddLine(Brushes.Black, border, height - border, width - border, height - border);
-            AddLine(Brushes.Black, border, 20, border, height - border);
+            AddLine(brushLightGrey, border, height - border, width - border, height - border);
+            //AddLine(Brushes.Black, border, 20, border, height - border);
+
             AddText("0", x0 + 2, y0 + 0);
             AddText("Разведение", width - 100, y0 - 20);
-            AddText("Размер\nалергической\nреакции (mm)", x0, 0);
+            AddText("Размер алергической\nреакции (mm)", x0, 0);
             #endregion
 
             #region DRAW GRID
-            double xStep = 1; //шаг сетки
+            double xStep = 2; //шаг сетки
 
             while (xStep * xScale < 25)
             {
@@ -432,66 +440,63 @@ namespace CBA.Presentation
 
             double yStep = 1; //шаг сетки
 
-            while (yStep * yScale < 20)
+            while (yStep * yScale < 30)
                 yStep *= 10;
 
-            while (yStep * yScale > 40)
+            while (yStep * yScale > 50)
                 yStep /= 3;
 
-            for (var dy = yStep; dy < yMax - yMax * 0.2; dy += yStep)
+            var topLimitCoeficient = 0.5;
+            var linesStepCoeficient = 1.5;
+
+            for (var dy = yStep; dy < yMax - yMax * topLimitCoeficient; dy += yStep)
             {
-                var y = y0 - dy * yScale;
-                AddLine(Brushes.LightGray, x0, y, width - border, y);
+                var y = y0 - dy * yScale * linesStepCoeficient;
+                AddLine(brushLightGrey, x0, y, width - border, y);
                 AddText(string.Format("{0:0}", dy), x0 - 20, y - 2);
             }
             #endregion
 
             #region DRAW GRAPH
-            var brush = new Brush[3] { Brushes.Blue, Brushes.Yellow, Brushes.Green };
+            var brush = new Brush[3] 
+            {
+                brushGreen,
+                brushOrange,
+                brushPurple
+            };
 
             for (var i = 0; i < size; i++)
             {
                 if (series[i].Ratio > 0) //series[i].Ratio != -1
                 {
-                    if (series[i].Ratio == list.Max())
+                    canvasGraph.Children.Add(new Line
                     {
-                        canvasGraph.Children.Add(new Line
-                        {
-                            X1 = 1 * xScale + 5 + border,
-                            X2 = 4 * xScale + 5 + border,
-                            Y1 = y0 - series[i].Breeding[0] * yScale + 5,
-                            Y2 = y0 - series[i].Breeding[1] * yScale + 5,
-                            Stroke = brush[i]
-                        });
-                    }
-                    else
-                    {
-                        canvasGraph.Children.Add(new Line
-                        {
-                            X1 = 1 * xScale + 5 + border,
-                            X2 = 4 * xScale + 5 + border,
-                            Y1 = y0 - series[i].Breeding[0] * yScale + 5,
-                            Y2 = y0 - series[i].Breeding[1] * yScale + 5,
-                            Stroke = Brushes.Gray
-                        });
-                    }
-
-                    canvasGraph.Children.Add(new Ellipse
-                    {
-                        Fill = brush[i],
+                        X1 = 1 * xScale + 5 + border,
+                        X2 = 4 * xScale + 5 + border,
+                        Y1 = y0 - series[i].Breeding[0] * yScale + 5,
+                        Y2 = y0 - series[i].Breeding[1] * yScale + 5,
                         Stroke = brush[i],
-                        Width = 10,
-                        Height = 10,
-                        Margin = new Thickness(1 * xScale + border, y0 - series[i].Breeding[0] * yScale, 0, 0)
+                        StrokeThickness = 4
                     });
 
                     canvasGraph.Children.Add(new Ellipse
                     {
-                        Fill = brush[i],
+                        Fill = Brushes.White,
                         Stroke = brush[i],
-                        Width = 10,
-                        Height = 10,
-                        Margin = new Thickness(4 * xScale + border, y0 - series[i].Breeding[1] * yScale, 0, 0)
+                        StrokeThickness = 2,
+                        Width = 13,
+                        Height = 13,
+                        Margin = new Thickness(1 * xScale + border , y0 - series[i].Breeding[0] * yScale - 2, 0, 0)
+                    });
+
+                    canvasGraph.Children.Add(new Ellipse
+                    {
+                        Fill = Brushes.White,
+                        Stroke = brush[i],
+                        StrokeThickness = 2,
+                        Width = 13,
+                        Height = 13,
+                        Margin = new Thickness(4 * xScale + border, y0 - series[i].Breeding[1] * yScale - 2, 0, 0)
                     });
                 }
             }
@@ -512,10 +517,13 @@ namespace CBA.Presentation
 
         private void AddText(string text, double x, double y)
         {
+            var converter = new System.Windows.Media.BrushConverter();           
+            var brushGrey = (Brush)converter.ConvertFromString("#dbdbdb");
+
             var textBlock = new TextBlock
             {
                 Text = text,
-                Foreground = Brushes.Black
+                Foreground = brushGrey
             };
 
             //Определение координат блока
