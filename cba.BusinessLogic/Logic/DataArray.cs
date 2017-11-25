@@ -28,12 +28,19 @@ namespace CBA.BusinessLogic.Logic
 
                 if ((j + 1) % 3 == 0)
                 {
-                    Data.Columns.Add(new DataColumn {ColumnName = (j + 1).ToString()});
+                    Data.Columns.Add(new DataColumn
+                    {
+                        ColumnName = (j + 1).ToString()
+                    });
+
                     number = 0;
                 }
                 else
                 {
-                    Data.Columns.Add(new DataColumn {ColumnName = (j + 1).ToString()});
+                    Data.Columns.Add(new DataColumn
+                    {
+                        ColumnName = (j + 1).ToString()
+                    });
                 }
             }
 
